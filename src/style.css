@@ -1,0 +1,303 @@
+.pn-page-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.pn-main-view {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/*..Centrerad wrapper för allt innehåll...*/
+.prm-wrapper {
+  width: 1280px;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+/*..HERO CONTAINER ........................................*/
+.prm-header-container {
+  width: 100%;
+  height: 220px;
+  padding:48px 48px 56px 48px;
+  box-sizing: border-box;
+  background:var(--color-surface-highlight, #EFFBFF);
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 24px !important;
+}
+
+/*...pn-header web component ..*/
+pn-header {
+  display: block;
+  width: 100%;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+.pn-header-content {
+  width: 745px !important;
+  /*display: flex !important;*/
+  flex-shrink: 0;
+}
+
+/*..Buttons on Header...*/
+pn-button[slot="buttons"] {
+  width: 203px;
+  height: 48px;
+  --pn-button-border-radius: 9999px;
+  --pn-button-padding: 12px 16px;
+  --pn-button-font-weight: 500;
+  --pn-button-font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  --pn-button-font-size: var(--font-size-paragraph-m, 14px);
+  --pn-button-line-height: var(--line-height-paragraph-m, 20px);
+  display: inline-flex;
+}
+
+.pn-header-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 16px !important;
+  width: 415px;
+  height: 48px;
+  align-items: center;
+  flex-shrink: 0 !important;
+}
+
+/*...INNER WRAPPER SECTION....................................................*/
+.prm-inner-wrapper {
+  width: 1280px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  border-radius: 8px;
+  padding: 48px 48px 88px 48px;
+  background: var(--color-surface-primary, #FFFFFF);
+  box-shadow: 0px 3.2px 7.2px 0px #00000021,
+              0px 0.6px 1.8px 0px #00000010;
+}
+
+/* -----------------------Explore Product Areas ---------------------------------*/
+.explore-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+.explore-title {
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 110%;
+  color: var(--color-content-primary, #1a1a1a);
+  margin: 0;
+  text-align: center;
+}
+.explore-cards {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  justify-content: center;
+}
+.explore-cards pn-card {
+  width: 278px;
+  height: 352px;
+  max-width: 569px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-surface-elevated-primary, #FFFFFF);
+  box-shadow: 0px 1.6px 3.6px 0px #0000001F,
+              0px 0.3px 0.9px 0px #0000001F;
+}
+.explore-cards pn-card img {
+  width: 278px;
+  height: 170px;
+  object-fit: cover;
+}
+
+/*.DIVIDER BETWEEN Explore section and New to section................*/
+.explore-divider {
+  width: 1184px;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--color-border-subtle, #0E0E0E1F);
+  margin-top: 8px;
+  
+}
+
+/*...NEW TO PRM SECTION .................................................*/
+.new-to-prm-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  width: 1184px;
+  height: 519px;
+  margin-top: -32px;
+
+}
+.new-to-prm-title {
+  font-family:'PN Sans', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 110%;
+  color:#0E0E0E;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.new-to-prm-cards {
+  display: flex;
+  flex-direction: row;
+  gap:24px;
+  width: 100%;
+  justify-content: center;
+}
+.new-to-prm-cards pn-card {
+  max-width: 278px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-surface-elevated-primary, #FFFFFF);
+  box-shadow: 0px 1.6px 3.6px 0px #0000001F,
+              0px 0.3px 0.9px 0px #0000001F;
+}
+
+/*....FAQ SECTION.....................................................*/
+
+.faq-section {
+  display: flex;
+  flex-direction: column;
+  width: 1184px;
+  gap:16px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border-subtle, #0E0E0E1F);
+}
+.faq-icon-row {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/*..Line through the letter box in FAQ section...*/
+.faq-icon-row::before{
+  content: '';
+  position: absolute;
+  top: 40px; /* middle of the icon*/
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-top: 1px solid #D3CECB;
+  z-index: 0; /*..Behind the icon*/
+}
+
+.faq-icon {
+  height: 80px;
+  width: auto;
+  position: relative;
+  z-index: 1;/*..in front of the line..*/
+}
+.faq-content {
+  display: flex;
+  flex-direction: row;
+  gap:32px;
+  width: 100%;
+}
+
+/* FAQ: Left kolumn */
+.faq-left {
+  width: 576px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 72px 48px 72px;
+  box-sizing: border-box;
+}
+.faq-label {
+  font-family: 'PN Sans', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 110%;
+  color: #00A0D6;
+}
+
+.faq-title {
+  font-family: 'PN Sans', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 110%;
+  color: #2D2013;
+  margin: 0;
+}
+
+/* Right Column FAQ: accordion */
+.faq-accordion {
+  width: 576px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/*...SIDBAR SECTION - MOCK SIDEBAR---------------------------------*/
+.pn-menu-div {
+   width: 56px;
+  min-height: calc(100vh - 56px);
+  background: var(--color-surface-elevated-primary, #FFFFFF);
+  box-shadow: 0px 3.2px 7.2px 0px #00000021,
+              0px 0.6px 1.8px 0px #0000001F;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  align-self: flex-start;
+  z-index: 10;
+}
+
+.pn-sb-icon {
+  list-style: none;
+  margin: 0;
+  padding: 16px 8px 48px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: calc(100vh - 56px);
+  box-sizing: border-box;
+}
+
+.sb-divider {
+  width: 32px;
+  height: 1px;
+  background-color: var(--color-border-subtle, #0E0E0E1F);
+  margin: 0 auto;
+}
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.15s ease;
+}
+
+.sb-item:hover {
+  background-color: #F0F4FA;
+}
+
+.sb-nav-item--active .sb-item {
+  background-color: #E8F0FB;
+}
