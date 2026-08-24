@@ -106,17 +106,34 @@ pn-button[slot="buttons"] {
     height: auto !important;
     padding: 36px 32px 44px 32px;
   }
+
+  .pn-main-view {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .prm-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .prm-inner-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 /*..MOBILE: up to 768px..*/
 @media (max-width:768px){
   .prm-wrapper {
     width: 100%;
+    padding-left: 0;
   }
 
   .prm-header-container {
     height: auto !important;
-    padding: 24px 16px 32px 16px;
+    padding: 64px 16px 32px 16px;
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 16px !important;
@@ -367,6 +384,7 @@ pn-button[slot="buttons"] {
   gap: 8px;
   height: calc(100vh - 56px);
   box-sizing: border-box;
+  
 }
 
 .sb-divider {
@@ -396,4 +414,190 @@ pn-button[slot="buttons"] {
 
 .sb-nav-item--active .sb-item {
   background-color: #E8F0FB;
+}
+
+/*..Hamburger button..*/
+.hamburger-btn {
+  display: none;
+}
+
+/*::::::::::::::::RESPONSIVE - SIDEBAR SECTION:::::::::::::::::::::::::::*/
+
+/*..HIDE sidebar when tablet and mobile..*/
+@media(max-width:1024px) {
+  .pn-menu-div {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 64px;
+    left: 12px;
+    z-index: 200;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #FFFFFF;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 1.6px 3.6px 0px #0000001F;
+    padding: 0;
+  }
+}
+
+/* Hamburger - icon 3 lines..*/
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 20px;
+}
+.hamburger-icon span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #005d92;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+
+/*..Animation-3 lines to X..*/
+.hamburger-icon.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-icon.is-open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger-icon.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/*..Overlay(Drawer)- dark backround  */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+@media (max-width: 1024px) {
+  .drawer-overlay {
+    display: block;
+    pointer-events: none;
+  }
+  .drawer-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Drawer glides to right  ...*/
+.drawer {
+  display: none;
+}
+@media (max-width: 1024px) {
+  .drawer {
+    display: flex;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    height: calc(100vh - 56px);
+    background: #FFFFFF;
+    box-shadow: 4px 0 16px rgba(0,0,0,0.12);
+    z-index: 160;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+  .drawer.is-open {
+    transform: translateX(0);
+  }
+}
+
+/*..Items inside Drawer- icon + label next to each other ..*/
+/* Fix — active item i drawer ska också använda grid */
+.drawer .sb-nav-item--active .sb-item {
+  background-color: #E8F0FB;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+
+/* Fix — alla ikoner i drawer får samma storlek och alignment */
+
+
+.drawer .pn-sb-icon {
+  list-style: none;
+  margin: 0;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.drawer .sb-nav-item {
+  width: 100%;
+}
+.drawer .sb-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.drawer .sb-item .sb-label {
+  flex: 1;
+  text-align: left;
+}
+
+.drawer .sb-item pn-icon {
+  width: 24px;
+  min-width: 24px;
+  max-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+   color: #005d92;
+}
+
+.drawer .sb-divider {
+  width: calc(100% - 32px);
+  height: 1px;
+  margin: 4px 16px;
+  background-color: var(--color-border-subtle, #0E0E0E1F);
+  display: block;
+  list-style: none;
+}
+
+.sb-label {
+  font-family: 'PN Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #004b80;
+  line-height: 1;
 }
