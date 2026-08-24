@@ -478,9 +478,6 @@ pn-button[slot="buttons"] {
 }
 
 
-
-
-
 /*...SIDBAR SECTION - MOCK SIDEBAR---------------------------------*/
 .pn-menu-div {
   width: 56px;
@@ -662,7 +659,7 @@ pn-button[slot="buttons"] {
 .drawer .pn-sb-icon {
   list-style: none;
   margin: 0;
-  padding: 16px 0;
+  padding: 48px 0 16px 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
