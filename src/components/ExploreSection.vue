@@ -22,7 +22,7 @@
                 href-label="Explore letter products">
 
             <!--Image Woman holding a dog arriving home-->
-             <img src="../assets/images/20230601-postnord-1561_v2x.jpg"
+             <img src="../assets/images/Woman-dog-with-mail.jpg"
                 alt="Letter products"
                 slot="image"/>
             </pn-card>
@@ -35,7 +35,7 @@
             
             <!--Image Postnord van driver comes out-->        
             <img
-                src="../assets/images/20260601-coworker-deliver-parcel.jpg"
+                src="../assets/images/Rural-mail-carrier-delivering-letters.jpg"
                 alt="Logistics"
                 slot="image"/>
             </pn-card>
@@ -50,7 +50,7 @@
 
             <!--Image Man reading from the cellphone-->  
             <img
-               src="../assets/images/20260601-man-ordering.jpg"
+               src="../assets/images/Young-man-shopping-online.jpg"
                 alt="Add-on products"
                 slot="image"/>
             </pn-card>

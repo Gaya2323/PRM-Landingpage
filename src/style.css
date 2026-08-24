@@ -234,6 +234,7 @@ pn-button[slot="buttons"] {
   object-fit: cover;
 }
 
+
 /*.DIVIDER BETWEEN Explore section and New to section................*/
 .explore-divider {
   width: 1184px;
@@ -243,6 +244,37 @@ pn-button[slot="buttons"] {
   margin-top: 8px;
   
 }
+
+/*::::::::::::::::RESPONSIVE - ExPLORE SECTION + Divider::::::::::::::::::::::::::*/
+/*..Tablet: 2 cards per row*/
+@media (max-width: 1024px){
+  .explore-cards {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+  }
+  .explore-cards pn-card {
+    width: calc(50% - 12px);
+    height: auto;
+    flex-shrink: 0;
+  }
+  .explore-divider {
+    width: 100%;
+  }
+}
+/*..Mobile settings: 1 card per row*/
+@media (max-width: 768px){
+  .explore-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .explore-cards pn-card {
+    width: 100%;
+    height: auto;
+  }
+}
+
 
 /*...NEW TO PRM SECTION .................................................*/
 .new-to-prm-section {
@@ -267,17 +299,53 @@ pn-button[slot="buttons"] {
 .new-to-prm-cards {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap:24px;
   width: 100%;
   justify-content: center;
+  align-items: stretch;
 }
-.new-to-prm-cards pn-card {
-  max-width: 278px;
-  flex-shrink: 0;
+.new-to-prm-card-wrapper {
+  width: 278px;
+  display: flex;
+}
+.new-to-prm-card-wrapper pn-card {
+  width: 100%;
+  height: auto;
   border-radius: 8px;
   background: var(--color-surface-elevated-primary, #FFFFFF);
   box-shadow: 0px 1.6px 3.6px 0px #0000001F,
               0px 0.3px 0.9px 0px #0000001F;
+}
+
+.new-to-prm-card-wrapper pn-card img {
+  max-width: 100%;
+  height: 170px;
+ object-fit: cover;
+ 
+}
+/*::::::::::::::::RESPONSIVE - NEW TO PRM- SECTION + Divider::::::::::::::::::::::::::*/
+
+/* Tablet: 2 cards/row*/
+@media (max-width:1024px){
+  .new-to-prm-section {
+    width: 100% !important;
+    height: auto !important;
+    
+  }
+
+  .new-to-prm-card-wrapper {
+    width: calc(50% - 12px);
+    
+  }
+}
+
+/*.Mobile: 1 card/row..*/
+@media (max-width: 768px){
+  .new-to-prm-card-wrapper {
+    width: 100%;
+  }
+ 
 }
 
 /*....FAQ SECTION.....................................................*/
@@ -360,17 +428,70 @@ pn-button[slot="buttons"] {
   gap: 10px;
 }
 
+/*::::::::::::::::RESPONSIVE - FAQ - SECTION::::::::::::::::::::::::::*/
+/*..Tablet (769-1024)..*/
+@media (max-width:1024px){
+  .faq-section {
+    width: 100%;
+    padding-top: 24px;
+    box-sizing: border-box;
+  }
+  .faq-content {
+    flex-direction: row;/*.side by side layout.*/
+    gap: 16px;
+  }
+  .faq-left{
+    width: 50%;
+    padding: 0 24px 32px 24px;
+  }
+  .faq-title {
+     font-size: 32px;
+  }
+  .faq-accordion {
+    width: 50%;
+  }
+  
+}
+/*..Mobile (<=769)..*/
+@media (max-width: 768px) {
+  .faq-section {
+    width: 100%;
+    padding-top: 24px;
+    box-sizing: border-box;
+  }
+  .faq-content {
+    flex-direction: column; /* vertical title first and accordion under */
+    gap: 24px;
+  }
+  .faq-left {
+    width: 100%;
+    padding: 0 16px;
+  }
+  .faq-title {
+    font-size: 28px;
+  }
+  .faq-accordion {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+}
+
+
+
+
+
 /*...SIDBAR SECTION - MOCK SIDEBAR---------------------------------*/
 .pn-menu-div {
-   width: 56px;
-  min-height: calc(100vh - 56px);
+  width: 56px;
+  min-height: calc(100vh - 56px); /*. calc(100vh - 56px)..*/
   background: var(--color-surface-elevated-primary, #FFFFFF);
   box-shadow: 0px 3.2px 7.2px 0px #00000021,
               0px 0.6px 1.8px 0px #0000001F;
   flex-shrink: 0;
   position: sticky;
   top: 56px;
-  align-self: flex-start;
+  align-self: stretch;
   z-index: 10;
 }
 
