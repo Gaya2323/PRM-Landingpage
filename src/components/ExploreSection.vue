@@ -12,7 +12,7 @@
                 href-label="Explore parcel products">
 
             <!--Image Woman holding parcel and coffee-->
-                <img src="../assets/images/20260601-postnord-holding-parcel.jpg" alt="Parcel products" slot="image"/>
+                <img src="../assets/images/Woman-drinking-coffee-holding-parcel.jpg" alt="Parcel products" slot="image"/>
             </pn-card>
 
             <!--2 nd CARD -->

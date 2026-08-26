@@ -57,7 +57,7 @@
                 href-label="Request access">
 
                 <!--Image: Coworker holding a parcel-->
-                <img src="../assets/images/Coworker-and-parcel.jpg" alt="how to get access?" slot="image"/>
+                <img src="../assets/images/how-do-I-get-access-pic.jpg" alt="how to get access?" slot="image"/>
                 </pn-card>
             </div>
         </div>
