@@ -416,15 +416,12 @@ pn-topbar > *,
   gap: 10px;
  
 }
-.faq-accordion pn-accordion-row {
-  font-family: (--font-family-sans, 'PN Sans', sans-serif);
-  font-weight: 700;
-  font-size: var(--font-size-paragraph-m, 16px);
-  line-height: var(--line-height-paragraph-m, 24px);
-  letter-spacing: 0px;
-
+.faq-accordion pn-accordion-row .pn-accordion-row-text {
+  font-weight: 700 !important;
+  font-family: 'PN Sans', sans-serif;
+  font-size: 16px;
+  color: #0E0E0E;
 }
-
 
 /*::::::::::::::::RESPONSIVE - FAQ - SECTION::::::::::::::::::::::::::*/
 /*..Tablet (769-1024)..*/
