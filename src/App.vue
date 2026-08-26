@@ -27,6 +27,7 @@
     <SidebarMock />
 
     <div class="pn-main-view">
+      
       <div class="prm-wrapper">
 
         <!-- Hero Section -->

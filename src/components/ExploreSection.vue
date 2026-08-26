@@ -22,7 +22,7 @@
                 href-label="Explore letter products">
 
             <!--Image Woman holding a dog arriving home-->
-             <img src="../assets/images/Woman-dog-with-mail.jpg"
+             <img src="../assets/images/20230601-postnord-1561_v2x.jpg"
                 alt="Letter products"
                 slot="image"/>
             </pn-card>
@@ -35,7 +35,7 @@
             
             <!--Image Postnord van driver comes out-->        
             <img
-                src="../assets/images/Rural-mail-carrier-delivering-letters.jpg"
+                src="../assets/images/20260601-coworker-deliver-parcel.jpg"
                 alt="Logistics"
                 slot="image"/>
             </pn-card>

@@ -11,13 +11,14 @@ html, body {
   flex-direction: row;
 }
 
-.pn-main-view {
+.pn-main-view { /* Nytt*/
   flex: 1;
   padding: 0;
   display: flex;
   justify-content: center;
   overflow: hidden;
   min-width: 0;
+  min-height: calc(100vh - 56px);
 }
 
 /* TOPBAR -  full width for all  screens */
@@ -39,8 +40,8 @@ pn-topbar > *,
 }
 
 /*..Centrerad wrapper för allt innehåll...*/
-.prm-wrapper {
-  width: 1280px;
+.prm-wrapper {  
+  width: min(1280px, calc(100vw - 56px));
   max-width: 1280px;
   min-width: 0;
   display: flex;
@@ -58,44 +59,51 @@ pn-topbar > *,
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
-  gap: 24px !important;
+  
 }
 
 /*...pn-header web component ..*/
 pn-header {
-  display: block;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
   width: 100%;
   background: transparent;
   padding: 0;
   margin: 0;
+  gap: 24px !important;
 }
+
 .pn-header-content {
   width: 745px !important;
-  /*display: flex !important;*/
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 /*..Buttons on Header...*/
 pn-button[slot="buttons"] {
-  width: 203px;
-  height: 48px;
+  width: 203px !important;
+  height: 48px !important;
   --pn-button-border-radius: 9999px;
   --pn-button-padding: 12px 16px;
   --pn-button-font-weight: 500;
   --pn-button-font-family: var(--font-family-sans, 'PN Sans', sans-serif);
   --pn-button-font-size: var(--font-size-paragraph-m, 14px);
   --pn-button-line-height: var(--line-height-paragraph-m, 20px);
-  display: inline-flex;
+  display: inline-flex !important;
+  white-space: nowrap !important;
 }
 
 .pn-header-buttons {
   display: flex !important;
   flex-direction: row !important;
   gap: 16px !important;
-  width: 415px;
-  height: 48px;
-  align-items: center;
+  width: 415px !important;;
+  height: 48px !important;;
+  align-items: center !important;;
   flex-shrink: 0 !important;
+  flex-wrap: nowrap !important;
 }
 
 /*::::::::::::::::RESPONSIVE - HERO/HEADER SECTION:::::::::::::::::::::::::::*/
@@ -181,7 +189,7 @@ pn-button[slot="buttons"] {
 
 /*...INNER WRAPPER SECTION....................................................*/
 .prm-inner-wrapper {
-  width: 1280px;
+  width:min(1280px, calc(100vw - 56px));
   max-width: 1280px;
   box-sizing: border-box;
   display: flex;
@@ -277,14 +285,15 @@ pn-button[slot="buttons"] {
 
 
 /*...NEW TO PRM SECTION .................................................*/
+
 .new-to-prm-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  width: 1184px;
+  max-width: 1280px;
+  min-width: 0;
   height: 519px;
-  margin-top: -32px;
+  margin: 0 auto; /*. margin-top: -32px; för att cards lika långa..*/
 
 }
 .new-to-prm-title {
@@ -310,7 +319,7 @@ pn-button[slot="buttons"] {
   display: flex;
 }
 .new-to-prm-card-wrapper pn-card {
-  width: 100%;
+  width: min(1280px, calc(100vw - 56px));
   height: auto;
   border-radius: 8px;
   background: var(--color-surface-elevated-primary, #FFFFFF);
@@ -394,7 +403,7 @@ pn-button[slot="buttons"] {
 
 /* FAQ: Left kolumn */
 .faq-left {
-  width: 576px;
+  width: 476px; /*...576px original*/
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -403,7 +412,7 @@ pn-button[slot="buttons"] {
   box-sizing: border-box;
 }
 .faq-label {
-  font-family: 'PN Sans', sans-serif;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
   font-weight: 700;
   font-size: 20px;
   line-height: 110%;
@@ -411,9 +420,9 @@ pn-button[slot="buttons"] {
 }
 
 .faq-title {
-  font-family: 'PN Sans', sans-serif;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
   font-weight: 700;
-  font-size: 48px;
+  font-size: 38px;
   line-height: 110%;
   color: #2D2013;
   margin: 0;
@@ -426,7 +435,17 @@ pn-button[slot="buttons"] {
   display: flex;
   flex-direction: column;
   gap: 10px;
+ 
 }
+.faq-accordion pn-accordion-row {
+  font-family: (--font-family-sans, 'PN Sans', sans-serif);
+  font-weight: 700;
+  font-size: var(--font-size-paragraph-m, 16px);
+  line-height: var(--line-height-paragraph-m, 24px);
+  letter-spacing: 0px;
+
+}
+
 
 /*::::::::::::::::RESPONSIVE - FAQ - SECTION::::::::::::::::::::::::::*/
 /*..Tablet (769-1024)..*/

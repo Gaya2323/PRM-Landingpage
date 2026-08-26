@@ -29,7 +29,7 @@
                 href-label="Learn more">
 
                 <!--Image: woman working on a laptop-->
-                <img src="../assets/images/Woman-with-computer.jpg" alt="learn specifications and navigation" slot="image"/>
+                <img src="../assets/images/Woman-with-computer.jpeg" alt="learn specifications and navigation" slot="image"/>
                 </pn-card>
             </div>
 
@@ -43,7 +43,7 @@
                 href-label="Learn more">
 
                 <!--Image: laptop computer -->
-                <img src="../assets/images/Woman-looking-computer.jpg" alt="view product changes over time" slot="image"/>
+                <img src="../assets/images/E-commerce-Nordic-Swan-Ecolabel.jpg" alt="view product changes over time" slot="image"/>
                 </pn-card>
             </div>
 

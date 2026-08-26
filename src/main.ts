@@ -5,10 +5,11 @@ import { defineCustomElementPnHeader,
     defineCustomElementPnAccordion,
     defineCustomElementPnAccordionRow,
     defineCustomElementPnIcon } from '@postnord/web-components/components'
+
+
+import 'pn-design-assets/pn-assets/styles/pn-styles.scss'
 import './style.css'
 import App from './App.vue'
-
-
 
 
 
