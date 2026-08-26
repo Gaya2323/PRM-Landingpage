@@ -91,7 +91,7 @@ pn-topbar > *,
 @media (max-width: 1024px){
   .prm-header-container {
     height: auto !important;
-    padding: 46px 32px 44px 32px;
+    padding: 56px 32px 44px 32px;
     flex-direction: column !important;
     align-items: flex-start !important;
   }
@@ -129,7 +129,7 @@ pn-topbar > *,
 
   .prm-header-container {
     height: auto !important;
-    padding: 74px 16px 32px 16px;
+    padding: 84px 16px 32px 16px;
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 16px !important;
@@ -303,7 +303,8 @@ pn-topbar > *,
   align-items: stretch;
 }
 .new-to-prm-card-wrapper {
-  width: 278px;
+  flex: 1 1 278px; /* växer och krymper, men helst 278px */
+  max-width: 278px;
   display: flex;
 }
 .new-to-prm-card-wrapper pn-card {
