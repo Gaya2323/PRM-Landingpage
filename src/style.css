@@ -91,7 +91,7 @@ pn-topbar > *,
 @media (max-width: 1024px){
   .prm-header-container {
     height: auto !important;
-    padding: 36px 32px 44px 32px;
+    padding: 46px 32px 44px 32px;
     flex-direction: column !important;
     align-items: flex-start !important;
   }
@@ -129,7 +129,7 @@ pn-topbar > *,
 
   .prm-header-container {
     height: auto !important;
-    padding: 64px 16px 32px 16px;
+    padding: 74px 16px 32px 16px;
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 16px !important;
@@ -658,7 +658,6 @@ pn-topbar > *,
 
 
 /* Fix — alla ikoner i drawer får samma storlek och alignment */
-
 
 .drawer .pn-sb-icon {
   list-style: none;
