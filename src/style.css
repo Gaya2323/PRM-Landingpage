@@ -92,13 +92,21 @@ pn-topbar > *,
   .prm-header-container {
     height: auto !important;
     padding: 36px 32px 44px 32px;
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
-
+  .prm-header-left {
+    width: 100% !important;
+  }
+  .prm-header-buttons {
+    width: 100% !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+  }
   .pn-main-view {
     justify-content: flex-start;
     width: 100%;
   }
-
   .prm-wrapper {
     width: 100% !important;
     max-width: 100% !important;
@@ -109,6 +117,7 @@ pn-topbar > *,
     width: 100% !important;
     max-width: 100% !important;
   }
+
 }
 
 /*..MOBILE: up to 768px..*/
