@@ -50,7 +50,7 @@
 
             <!--Image Man reading from the cellphone-->  
             <img
-               src="../assets/images/Young-man-shopping-online.jpg"
+               src="../assets/images/Man-with-dog-ordering.jpg"
                 alt="Add-on products"
                 slot="image"/>
             </pn-card>
