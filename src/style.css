@@ -166,6 +166,9 @@ pn-topbar > *,
     width: 100% !important;
     max-width: 100% !important;
   }
+  .prm-header-title { /*..Under Hamburger Menu ..*/
+    padding-top: 30px;
+  }
 
 }
 
