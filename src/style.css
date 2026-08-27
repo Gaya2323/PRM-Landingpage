@@ -53,14 +53,25 @@ pn-topbar > *,
 .prm-header-container {
   width: 100%;
   height: 220px;
-  padding:48px;
+  padding: 0 48px;
   box-sizing: border-box;
   background:var(--color-surface-highlight, #EFFBFF);
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
+  
 }
+.prm-header-inner {
+  width: min(1280px, calc(100vw - 56px));  /* samma logik som prm-inner-wrapper */
+  max-width: 1280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
 .prm-header-left {
   width: 745px;
   flex-shrink: 0;
@@ -87,7 +98,35 @@ pn-topbar > *,
 
 /*::::::::::::::::RESPONSIVE - HERO/HEADER SECTION:::::::::::::::::::::::::::*/
 
-/*..TABLET 769px – 1024px.*/
+/* Small laptop: 1025px – 1280px */
+@media (min-width:1025px) and (max-width: 1280px) {
+  .prm-header-container {
+    width: min(1280px, calc(100vw - 56px));  /* samma logik som prm-inner-wrapper */       
+    padding: 48px 24px !important;   /* lite mindre side-padding */
+    gap: 16px !important;
+    
+  }
+ 
+  .prm-header-left {
+    flex: 1 1 auto !important;       /* tar tillgängligt utrymme */
+    min-width: 0 !important;
+    max-width: 580px !important;  
+    width: auto !important;
+    flex-shrink: 1 !important;   /* begränsar texten */
+  }
+
+.prm-header-buttons {
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;       /* knappar krymper ALDRIG */
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+}
+
+
+/*..TABLET 769px – 1024px. HERO/HEADER SECTION....*/
 @media (max-width: 1024px){
   .prm-header-container {
     height: auto !important;
@@ -95,14 +134,24 @@ pn-topbar > *,
     flex-direction: column !important;
     align-items: flex-start !important;
   }
+  .prm-header-inner {
+    flex-direction: column !important;  /* ← stapla text och knappar vertikalt */
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 24px !important;
+  }
   .prm-header-left {
     width: 100% !important;
+    flex-shrink: 1 !important;
   }
   .prm-header-buttons {
-    width: 100% !important;
+    display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
+    gap: 12px !important;
+    width: 100% !important;
   }
+  
   .pn-main-view {
     justify-content: flex-start;
     width: 100%;
@@ -120,7 +169,7 @@ pn-topbar > *,
 
 }
 
-/*..MOBILE: up to 768px..*/
+/*..MOBILE: up to 768px. HERO/HEADER SECTION.*/
 @media (max-width:768px){
   .prm-wrapper {
     width: 100%;
@@ -215,7 +264,7 @@ pn-topbar > *,
   justify-content: center;
 }
 .explore-cards pn-card {
-  width: 278px;
+  width: 250px;  /* NYTT */
   height: 352px;
   max-width: 569px;
   flex-shrink: 0;
@@ -273,42 +322,46 @@ pn-topbar > *,
 
 
 /*...NEW TO PRM SECTION .................................................*/
-
 .new-to-prm-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 1280px;
-  min-width: 0;
-  height: auto; /* ← ändra från 519px till auto */
-  margin: 0 auto; /*. margin-top: -32px; för att cards lika långa..*/
-
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 48px 24px;
+  box-sizing: border-box;
 }
+
 .new-to-prm-title {
-  font-family:'PN Sans', sans-serif;
+  font-family: 'PN Sans', sans-serif;
   font-weight: 700;
   font-size: 32px;
   line-height: 110%;
-  color:#0E0E0E;
+  color: #0E0E0E;
   text-align: center;
   margin-bottom: 24px;
 }
+
 .new-to-prm-cards {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap:24px;
+  flex-wrap: nowrap; /* ← VIKTIGT: förhindrar radbrytning */
+  gap: 24px;
   width: 100%;
   justify-content: center;
-  align-items: stretch;
 }
+
 .new-to-prm-card-wrapper {
-  flex: 1 1 278px; /* växer och krymper, men helst 278px */
-  max-width: 278px;
+  flex: 1 1 0;        /* ← växer jämnt */
+  max-width: 278px;   /* ← max bredd per kort */
+  min-width: 0;
   display: flex;
 }
+
 .new-to-prm-card-wrapper pn-card {
-  width: min(1280px, calc(100vw - 56px));
+  width: 100%;
   height: auto;
   border-radius: 8px;
   background: var(--color-surface-elevated-primary, #FFFFFF);
@@ -317,10 +370,9 @@ pn-topbar > *,
 }
 
 .new-to-prm-card-wrapper pn-card img {
-  max-width: 100%;
+  width: 100%;
   height: 170px;
- object-fit: cover;
- 
+  object-fit: cover;
 }
 /*::::::::::::::::RESPONSIVE - NEW TO PRM- SECTION + Divider::::::::::::::::::::::::::*/
 
@@ -333,15 +385,38 @@ pn-topbar > *,
   }
 
   .new-to-prm-card-wrapper {
-    width: calc(50% - 12px);
+    flex: 0 0 calc(50% - 12px); /* ← 2 kort per rad, minus halva gap */
+    max-width: calc(50% - 12px);
     
+  }
+  .new-to-prm-cards {
+    flex-wrap: wrap; /* ← tillåter radbrytning på tablet */
+    justify-content: center;
   }
 }
 
 /*.Mobile: 1 card/row..*/
 @media (max-width: 768px){
-  .new-to-prm-card-wrapper {
+ .new-to-prm-section {
+  padding: 32px 16px;
+  box-sizing: border-box;
+  overflow: hidden; /* ← förhindrar att kort sticker ut */
+ }
+ .new-to-prm-cards {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
     width: 100%;
+  }
+  .new-to-prm-card-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+   box-sizing: border-box;
+  }
+  .new-to-prm-card-wrapper pn-card {
+    width: 100%;
+    height: auto; /*..452px.*/
   }
  
 }
