@@ -38,17 +38,13 @@
     onMounted(() => {
         setTimeout(() => {
             const multis = document.querySelectorAll('pn-multiselect')
-            console.log('Hittade pn-multiselect:', multis.length)
-            console.log('categoryOptions:', categoryOptions)
-            
             if (multis[0]) {
             (multis[0] as any).options = categoryOptions
-            console.log('options satta på multis[0]:', (multis[0] as any).options)
             }
             if (multis[1]) {
             (multis[1] as any).options = countryOptions
             }
-        }, 500)
+        }, 1000)   // öka från 500 till 1000
     })
 
     //Table Contents
