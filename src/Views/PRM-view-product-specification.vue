@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
     /*import type { PnMultiselectOption } from '@postnord/web-components/types';*/
-    import { onMounted, ref } from 'vue'
+    import { onMounted } from 'vue'
    
 
     const router = useRouter()
@@ -10,7 +10,7 @@
     router.push('/')
     }
 
-    const currentPage = ref(2)
+   
 
     interface MultiselectOption {
         label: string
@@ -34,9 +34,6 @@
         { label: 'Norway', value: 'norway'},
     ]
 
-    //Refs- to point directly the pn-multiselect-element
-    const categorySelect = ref<HTMLElement | null>(null)
-    const countrySelect = ref<HTMLElement | null>(null)
 
     onMounted(() => {
         setTimeout(() => {
