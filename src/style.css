@@ -240,6 +240,8 @@ pn-topbar > *,
   background: var(--color-surface-primary, #FFFFFF);
   box-shadow: 0px 3.2px 7.2px 0px #00000021,
               0px 0.6px 1.8px 0px #00000010;
+
+  
 }
 
 /* -----------------------Explore Product Areas ---------------------------------*/
@@ -800,4 +802,306 @@ pn-topbar > *,
   font-weight: 500;
   color: #004b80;
   line-height: 1;
+}
+
+/*...PRM VIEW PRODUCT SPECIFICATION SECTION..............................*/
+
+.spec-header {
+  padding: 24px 48px 48px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spec-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #005d92;
+  font-weight: 700;
+  padding: 0;
+  width: fit-content;
+}
+
+.spec-back-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: #005d92;
+}
+
+.spec-back-btn:hover {
+  text-decoration: underline;
+}
+
+.spec-heading {
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-weight: 700;
+  font-size: var(--font-size-heading-xl, 28px);
+  line-height: var(--line-height-heading-xl, 1.2);
+  letter-spacing: normal;
+  color: #0E0E0E;
+  max-width: 846px;
+  margin: 0;
+}
+
+.spec-description {
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-weight: 400;
+  font-size: var(--font-size-paragraph-xl, 18px);
+  color: #0E0E0E;
+  max-width: 846px;
+  margin: 0;
+  margin-top: 10px;
+  line-height: var(--line-height-paragraph-xl, 1.6);
+  letter-spacing: normal;
+}
+
+/* Figma: width 1280, padding 48px alla sidor utom bottom 88px */
+.prm-inner-wrapper {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 48px 88px 48px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  box-shadow: 0px 3.2px 7.2px 0px #00000021,
+              0px 0.6px 1.8px 0px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;                /* Figma: gap 48px mellan sektionerna */
+}
+
+/*..FILTER SECTION (Figma: height 200, padding-top/bottom 32px, gap 32px internt)..*/
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;                /* Figma: gap 32px */
+  /* INGEN padding här — prm-inner-wrapper gap 48px räcker */
+}
+
+.filter-heading {           /* OBS: punkt tillagd — saknades! */
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-weight: 700;
+  font-size: var(--font-size-heading-l, 24px);
+  color: #0E0E0E;
+  margin: 0;
+  text-align: center;
+}
+
+/* Figma: width 808, height 72, gap 24px */
+.filter-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  max-width: 808px;         /* max-width istället för width — säkrare */
+  width: 100%;
+  height: 72px;
+}
+
+.filter-multiselect {
+  flex: 1;
+  height: 72px;
+}
+
+.filter-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
+  background: #005d92;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  align-self: flex-end;
+}
+
+.filter-search-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.filter-search-btn:hover {
+  background: #004a73;
+}
+
+.filter-more-row {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  background: transparent;
+  border: 1.5px solid #005d92;
+  border-radius: 24px;
+  color: #005d92;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.filter-more-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.filter-more-btn:hover {
+  background: #e8f2f8;
+}
+
+/*....PRODUCT TABLE (Figma: full bredd 1184px = kort minus padding)..........*/
+.product-table-outer {
+  width:100%;
+  margin-left: 0;           /* inga negativa marginaler */
+  margin-right: 0;
+  border-radius: 8px;
+  border: 1px solid #005D92;
+  overflow: hidden;          /* border-radius fungerar med overflow hidden */
+}
+
+.product-table {
+  width: 100%;
+  table-layout: fixed;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-size: 14px;
+}
+
+/* Kolumnbredder enligt Figma (218.4 × 5 + 92 = 1184px) */
+.product-table .col-product { width: 218px; }
+.product-table .col-issuer  { width: 218px; }
+.product-table .col-from    { width: 218px; }
+.product-table .col-to      { width: 218px; }
+.product-table .col-addons  { width: 218px; }
+.product-table .col-actions { width: 92px; }
+
+/* Dölj pn-button tooltip i tabellhuvudet */
+.product-table thead pn-button::part(tooltip) {
+  display: none !important;
+}
+
+
+/* Gemensam cell-styling */
+.product-table th,
+.product-table td {
+  overflow: hidden;
+  vertical-align: middle;
+  padding: 14px 12px;
+}
+
+/* Header */
+.product-table thead th {
+  color: #005d92;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Body */
+.product-table tbody td {
+  color: #0E0E0E;
+}
+
+/* column-wrapper flex */
+.product-table .column-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Add-ons radbrytning */
+.col-addons .column-wrapper {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Action-cell */
+.action-cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #005d92;
+  border-radius: 50%;
+  background: transparent;
+  color: #005d92;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.action-btn:hover {
+  background: #e8f2f8;
+}
+
+/*....PAGINATION......................................*/
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 50%;
+  background: transparent;
+  color: #0E0E0E;
+  font-size: 14px;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.page-btn:hover {
+  background: #e8f2f8;
+  border-color: #005d92;
+}
+
+.page-btn.active {
+  background: #005d92;
+  border-color: #005d92;
+  color: #fff;
+  font-weight: 700;
+}
+
+.page-nav svg {
+  width: 16px;
+  height: 16px;
 }

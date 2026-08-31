@@ -11,8 +11,7 @@ const isOpen = ref(false)
     @click="isOpen = !isOpen"
     :aria-expanded="isOpen"
     aria-label="Öppna navigering"
-    type="button"
-  >
+    type="button">
     <span class="hamburger-icon" :class="{ 'is-open': isOpen }">
       <span></span>
       <span></span>
@@ -24,8 +23,8 @@ const isOpen = ref(false)
   <div
     class="drawer-overlay"
     :class="{ 'is-visible': isOpen }"
-    @click="isOpen = false"
-  ></div>
+    @click="isOpen = false">
+  </div>
 
   <!-- Drawer — mobile/tablet -->
   <div class="drawer" :class="{ 'is-open': isOpen }">

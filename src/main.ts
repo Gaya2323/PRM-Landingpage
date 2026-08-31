@@ -4,12 +4,19 @@ import { defineCustomElementPnHeader,
     defineCustomElementPnCard,
     defineCustomElementPnAccordion,
     defineCustomElementPnAccordionRow,
-    defineCustomElementPnIcon } from '@postnord/web-components/components'
+    defineCustomElementPnIcon,
+    defineCustomElementPnTablist,
+    defineCustomElementPnTab,
+    defineCustomElementPnMultiselect,
+    defineCustomElementPnTable } from '@postnord/web-components/components'
+
+    
 
 
 import 'pn-design-assets/pn-assets/styles/pn-styles.scss'
 import './style.css'
 import App from './App.vue'
+import router from './router/index.ts'
 
 
 
@@ -19,6 +26,10 @@ defineCustomElementPnCard()
 defineCustomElementPnAccordion()
 defineCustomElementPnAccordionRow()
 defineCustomElementPnIcon ()
+defineCustomElementPnTablist()
+defineCustomElementPnTab()
+defineCustomElementPnMultiselect()
+defineCustomElementPnTable()
 
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app')
