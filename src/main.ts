@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import { defineCustomElementPnHeader, 
+import { 
+    defineCustomElementPnHeader, 
     defineCustomElementPnButton, 
     defineCustomElementPnCard,
     defineCustomElementPnAccordion,
@@ -8,28 +9,23 @@ import { defineCustomElementPnHeader,
     defineCustomElementPnTablist,
     defineCustomElementPnTab,
     defineCustomElementPnMultiselect,
-    defineCustomElementPnTable } from '@postnord/web-components/components'
-
-    
-
+    defineCustomElementPnTable,
+} from '@postnord/web-components/components'
 
 import 'pn-design-assets/pn-assets/styles/pn-styles.scss'
 import './style.css'
 import App from './App.vue'
 import router from './router/index.ts'
 
-
-
 defineCustomElementPnHeader()
 defineCustomElementPnButton()
 defineCustomElementPnCard()
 defineCustomElementPnAccordion()
 defineCustomElementPnAccordionRow()
-defineCustomElementPnIcon ()
+defineCustomElementPnIcon()
 defineCustomElementPnTablist()
 defineCustomElementPnTab()
 defineCustomElementPnMultiselect()
 defineCustomElementPnTable()
-
 
 createApp(App).use(router).mount('#app')

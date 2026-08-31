@@ -35,18 +35,21 @@
     ]
 
 
-    onMounted(() => {
-        setTimeout(() => {
-            const multis = document.querySelectorAll('pn-multiselect')
-            if (multis[0]) {
+    onMounted(async () => {
+        // Vänta tills pn-multiselect är definierad i browsern
+        await customElements.whenDefined('pn-multiselect')
+        
+        const multis = document.querySelectorAll('pn-multiselect')
+        console.log('pn-multiselect hittades:', multis.length)
+        
+        if (multis[0]) {
             (multis[0] as any).options = categoryOptions
-            }
-            if (multis[1]) {
+        }
+        if (multis[1]) {
             (multis[1] as any).options = countryOptions
-            }
-        }, 1000)   // öka från 500 till 1000
-    })
-
+        }
+     })
+     
     //Table Contents
     interface TableRow {
         id: number
