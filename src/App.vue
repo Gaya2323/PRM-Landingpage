@@ -22,7 +22,6 @@
     <SidebarMock />
 
     <div class="pn-main-view">
-      
       <router-view />
     </div>
 

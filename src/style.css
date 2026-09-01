@@ -900,7 +900,7 @@ pn-topbar > *,
   display: flex;
   align-items: flex-end;
   gap: 24px;
-  max-width: 808px;         /* max-width istället för width — säkrare */
+  max-width: 808px;      
   width: 100%;
   height: 72px;
 }
@@ -1009,6 +1009,170 @@ pn-topbar > *,
 
 .filter-more-btn:hover {
   background: #e8f2f8;
+}
+
+/* FILTER SECTION MEDIA QUERY....................*/
+
+/* Tablet 769px–1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .prm-inner-wrapper {
+    padding: 32px 24px 64px 24px;
+  }
+
+  /* Tabell scrollbar på tablet */
+  .product-table-outer {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: auto;
+  }
+
+  .product-table {
+    font-size: 12px;
+    min-width: 700px;       /* tabellen scrollar horisontellt om den inte ryms */
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 10px 8px !important;
+  }
+
+  /* Kolumnbredder — kompaktare */
+  .product-table .col-product { width: 12% !important;; }
+  .product-table .col-issuer  { width: 10% !important;; }
+  .product-table .col-from    { width: 18% !important;; }
+  .product-table .col-to      { width: 18% !important;; }
+  .product-table .col-addons  { width: 19% !important;; }
+  .product-table .col-actions { width: 10% !important;; }
+
+  .action-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .action-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Filter */
+  .filter-row {
+    max-width: 100%;
+    gap: 16px;
+  }
+
+  .filter-select {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .filter-search-btn {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 18px;
+  }
+}
+
+/* Mobil ≤768px */
+@media (max-width: 768px) {
+
+  .filter-section {
+    gap: 16px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    height: auto;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+    height: 36px;
+    font-size: 13px;
+    padding: 0 32px 0 10px;
+  }
+
+  .filter-label {
+    font-size: 12px;
+  }
+
+  .filter-search-btn {
+    width: 100%;
+    height: 36px;
+    font-size: 13px;
+    justify-content: center;
+  }
+
+  .filter-more-btn {
+    height: 32px;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+
+  .filter-heading {
+    font-size: 18px;
+  }
+
+  /* Tabellen scrollar horisontellt */
+  .product-table-outer {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    display: block !important;
+  }
+  /* Tvinga pn-table container att scrolla */
+  .product-table-outer .pn-table-container {
+    overflow-x: auto !important;
+    display: block !important;
+  }
+
+  .product-table {
+    min-width: 600px !important;
+    font-size: 12px;
+  }
+
+  .product-table {
+    min-width: 600px;    /* tabellen är alltid minst 600px bred */
+    font-size: 10px;
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 10px 8px !important;
+    white-space: nowrap;
+  }
+
+  /* Kolumnbredder på mobil */
+  .product-table .col-product { width: 130px !important; }
+  .product-table .col-issuer  { width: 60px !important; }
+  .product-table .col-from    { width: 140px !important; }
+  .product-table .col-to      { width: 60px !important; }
+  .product-table .col-addons  { width: 130px !important; }
+  .product-table .col-actions { width: 80px !important; }
+
+  .action-btn {
+    width: 26px;
+    height: 26px;
+  }
+
+  .action-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Minska prm-inner-wrapper padding på mobil */
+  .prm-inner-wrapper {
+    padding: 24px 16px 48px 16px !important;
+  }
 }
 
 /*....PRODUCT TABLE (Figma: full bredd 1184px = kort minus padding)..........*/
