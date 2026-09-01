@@ -1,17 +1,17 @@
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
     /*import type { PnMultiselectOption } from '@postnord/web-components/types';*/
-    import { onMounted } from 'vue'
+    import { onMounted, ref } from 'vue'
+    
    
 
     const router = useRouter()
+    const totalPages = ref(4)
 
     function goBack() {
     router.push('/')
     }
-
    
-
     interface MultiselectOption {
         label: string
         value: string
@@ -33,6 +33,12 @@
         { label: 'Denmark', value: 'denmark'},
         { label: 'Norway', value: 'norway'},
     ]
+
+    function handleNavigation(event: CustomEvent){
+        const { mouse, page } = event.detail
+        mouse.preventDefault()
+        router.push({ path: '/prodcut-specification', query:{ page }})
+    }
 
 
     onMounted(async () => {
@@ -264,6 +270,53 @@
                 </tbody>
             </table>
         </pn-table>
+
+        <!--Pagination  section------------>
+        <div class="pagination-wrapper">
+            <pn-pagination
+                :pages="totalPages"
+                url-template="?page={page}"
+                @pageSelected="handleNavigation">
+            </pn-pagination>
+
         </div>
+
+        <!--FAQ Section-------------------->
+        <section class="faq-section">
+
+            <!--ICON FAQ -->
+            <div class="faq-icon-row">
+                <img src="../assets/images/various-white-background-letterbox-reply-letter-plants-removebg.png"  alt="FAQ Illustration" class="faq-icon"/>
+            
+            </div>
+
+            <!--Content left+ right FAQ --->
+            <div class="faq-content">
+
+                <!--Left Column-->
+                <div class="faq-left">
+                    <span class="faq-label">FAQ</span>
+                    <h2 class="faq-title">Got questions? Find answers</h2>
+                </div>
+
+                <!--Right Column: accordion -->
+                <div class="faq-accordion">
+                    <pn-accordion class="faq-accordion-group">
+                    <pn-accordion-row label="How does the specification hirearchy work?"></pn-accordion-row>
+                    <pn-accordion-row label="How does the specification finder work?"></pn-accordion-row>
+                    <pn-accordion-row label="Which countries are considered PostNord countries?"></pn-accordion-row>
+                    <pn-accordion-row label="How can I tell which specification applies?"></pn-accordion-row>
+                    <pn-accordion-row label="What’s the process if I can’t find a suitable specification?"></pn-accordion-row>
+                    </pn-accordion>
+                </div>
+
+            </div>
+        </section>
+
+
+    </div>
+
+    
+
     </div>
 </template>

@@ -236,7 +236,7 @@ pn-topbar > *,
   flex-direction: column;
   gap: 56px;
   border-radius: 8px;
-  padding: 48px 48px 88px 48px;
+  padding: 48px 48px 58px 48px;
   background: var(--color-surface-primary, #FFFFFF);
   box-shadow: 0px 3.2px 7.2px 0px #00000021,
               0px 0.6px 1.8px 0px #00000010;
@@ -435,6 +435,7 @@ pn-topbar > *,
   gap:16px;
   padding-top: 32px;
   border-top: 1px solid var(--color-border-subtle, #0E0E0E1F);
+  
 }
 .faq-icon-row {
   width: 100%;
@@ -443,6 +444,7 @@ pn-topbar > *,
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-top: 35px;
 }
 
 /*..Line through the letter box in FAQ section...*/
@@ -1031,7 +1033,7 @@ pn-topbar > *,
 .product-table .col-issuer  { width: 218px; }
 .product-table .col-from    { width: 218px; }
 .product-table .col-to      { width: 218px; }
-.product-table .col-addons  { width: 218px; }
+.product-table .col-addons  { width: 200px; }
 .product-table .col-actions { width: 92px; }
 
 /* Dölj pn-button tooltip i tabellhuvudet */
@@ -1107,43 +1109,14 @@ pn-topbar > *,
 }
 
 /*....PAGINATION......................................*/
-.pagination {
+.pagination-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 6px;
-}
-
-.page-btn {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid #E0E0E0;
-  border-radius: 50%;
-  background: transparent;
-  color: #0E0E0E;
-  font-size: 14px;
-  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  margin: -75px;
+  border-top: none !important;
 }
-
-.page-btn:hover {
-  background: #e8f2f8;
-  border-color: #005d92;
-}
-
-.page-btn.active {
-  background: #005d92;
-  border-color: #005d92;
-  color: #fff;
-  font-weight: 700;
-}
-
-.page-nav svg {
-  width: 16px;
-  height: 16px;
+.pagination-wrapper pn-pagination {
+  width: 235px;
+  height: 12px;
 }

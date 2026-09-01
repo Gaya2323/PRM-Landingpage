@@ -10,6 +10,7 @@ import {
     defineCustomElementPnTab,
     defineCustomElementPnMultiselect,
     defineCustomElementPnTable,
+    defineCustomElementPnPagination
 } from '@postnord/web-components/components'
 
 import 'pn-design-assets/pn-assets/styles/pn-styles.scss'
@@ -27,5 +28,6 @@ defineCustomElementPnTablist()
 defineCustomElementPnTab()
 defineCustomElementPnMultiselect()
 defineCustomElementPnTable()
+defineCustomElementPnPagination()
 
 createApp(App).use(router).mount('#app')
