@@ -4,7 +4,6 @@
   import ExploreSection from '../components/ExploreSection.vue';
   import NewToPrmTitle from '../components/New-to-prm-title.vue';
   import FaqSection from '../components/FaqSection.vue';
-  import SidebarMock from '../components/SidebarMock.vue';
   import HeroSection from '../components/HeroSection.vue';
 
 </script>
@@ -13,9 +12,6 @@
 <template>
 
   <div class="pn-page-container">
-
-    <!-- Sidebar mock -->
-    <SidebarMock />
 
     <div class="pn-main-view">
       

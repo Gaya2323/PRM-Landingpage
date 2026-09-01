@@ -300,36 +300,36 @@
                 </div>
 
                 <!--Right Column: accordion -->
-            <div class="faq-accordion">
-                <pn-accordion class="faq-accordion-group">
+                <div class="faq-accordion">
+                    <pn-accordion class="faq-accordion-group">
 
-                    <pn-accordion-row>
-                        <span slot="label">How does the specification hirearchy work?</span>
-                        <p>Choose products based on selected category and area.</p>
-                    </pn-accordion-row>
+                        <pn-accordion-row>
+                            <span slot="label">How does the specification hirearchy work?</span>
+                            <p>Choose products based on selected category and area.</p>
+                        </pn-accordion-row>
 
-                    <pn-accordion-row>
-                        <span slot="label">How does the specification finder work?</span>
-                        <p>Specification finder will get the products based on the selected inputs.</p>
-                    </pn-accordion-row>
+                        <pn-accordion-row>
+                            <span slot="label">How does the specification finder work?</span>
+                            <p>Specification finder will get the products based on the selected inputs.</p>
+                        </pn-accordion-row>
 
-                    <pn-accordion-row>
-                        <span slot="label">Which countries are considered PostNord countries?</span>
-                        <p>PostNord primarily serves the Nordic countries (Sweden, Denmark, Norway, Finland) for mail and logistics, delivering to, from, and within this region, but also operates in Germany and globally through partners like DPD.</p>
-                    </pn-accordion-row>
+                        <pn-accordion-row>
+                            <span slot="label">Which countries are considered PostNord countries?</span>
+                            <p>PostNord primarily serves the Nordic countries (Sweden, Denmark, Norway, Finland) for mail and logistics, delivering to, from, and within this region, but also operates in Germany and globally through partners like DPD.</p>
+                        </pn-accordion-row>
 
-                    <pn-accordion-row>
-                        <span slot="label">How can I tell which specification applies?</span>
-                        <p>Product specification details.</p>
-                    </pn-accordion-row>
+                        <pn-accordion-row>
+                            <span slot="label">How can I tell which specification applies?</span>
+                            <p>Product specification details.</p>
+                        </pn-accordion-row>
 
-                    <pn-accordion-row>
-                        <span slot="label">What's the process if I can't find a suitable specification?</span>
-                        <p>Product specification details.</p>
-                    </pn-accordion-row>
+                        <pn-accordion-row>
+                            <span slot="label">What's the process if I can't find a suitable specification?</span>
+                            <p>Product specification details.</p>
+                        </pn-accordion-row>
 
-                </pn-accordion>
-            </div>
+                    </pn-accordion>
+                </div>
 
             </div>
         </section>
