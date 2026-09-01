@@ -89,7 +89,7 @@
         Back
       </button>
 
-      <!-- Heading + description -->
+      <!-- Heading + description Section--------------------------------->
       <div class="spec-header-content">
         <h1 class="spec-heading">Product Reference Master</h1>
         <p class="spec-description">
@@ -119,34 +119,60 @@
 
     </div>
 
-    <!-- Page content -->
+    <!-- Page content -------------------------->
     <div class="prm-inner-wrapper">
       
-        <!--Filter Section-->
+        <!--Filter Section------------------>
         <div class="filter-section">
             <h2 class="filter-heading">View Product Specifications</h2>
 
             <div class="filter-row">
-                <pn-multiselect
-                label="Filter by product category"
-                class="filter-multiselect"
-                ></pn-multiselect>
 
-                <pn-multiselect
-                label="Filter by country/area"
-                class="filter-multiselect"
-                ></pn-multiselect>
+                <!-- Dropdown 1 -->
+                <div class="filter-group">
+                    <label class="filter-label">Filter by product category</label>
+                    <div class="filter-select-wrapper">
+                        <select class="filter-select">
+                        <option value="all">All products</option>
+                        <option value="parcel">Parcel</option>
+                        <option value="letter">Letter</option>
+                        <option value="logistics">Logistics</option>
+                        <option value="addon">Add-on</option>
+                        </select>
+                        <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
 
-                <!--Search button-->
-                <button class="filter-search-btn" type="button">
+                <!-- Dropdown 2 -->
+                <div class="filter-group">
+                    <label class="filter-label">Filter by country/area</label>
+                    <div class="filter-select-wrapper">
+                        <select class="filter-select">
+                        <option value="worldwide">Worldwide</option>
+                        <option value="sweden">Sweden</option>
+                        <option value="finland">Finland</option>
+                        <option value="denmark">Denmark</option>
+                        <option value="norway">Norway</option>
+                        </select>
+                        <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+
+            <!--Search button-->
+            <button class="filter-search-btn" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path fill="#fff" fill-rule="evenodd" d="M10 4a6 6 0 1 0 0 12A6 6 0 0 0 10 4M2 10a8 8 0 1 1 14.906 4.092l4.001 4.001a1 1 0 0 1-1.414 1.414l-4.001-4A8 8 0 0 1 2 10" clip-rule="evenodd"/>
                 </svg>
-                Search
-                </button>
-            </div>
+            Search
+            </button>
 
-            <!--More filters button-->
+        </div>
+
+        <!--More filters button-->
             <div class="filter-more-row">
                 <button class="filter-more-btn" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -154,7 +180,6 @@
                 </svg>
                 More filters
                 </button>
-            </div>
             </div>
         </div>
 
@@ -239,5 +264,6 @@
                 </tbody>
             </table>
         </pn-table>
-  </div>
+        </div>
+    </div>
 </template>

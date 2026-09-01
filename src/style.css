@@ -875,7 +875,7 @@ pn-topbar > *,
   gap: 48px;                /* Figma: gap 48px mellan sektionerna */
 }
 
-/*..FILTER SECTION (Figma: height 200, padding-top/bottom 32px, gap 32px internt)..*/
+/*..FILTER SECTION (Figma: height 200, padding-top/bottom 32px, gap 32px internt)..............*/
 .filter-section {
   display: flex;
   flex-direction: column;
@@ -902,10 +902,52 @@ pn-topbar > *,
   width: 100%;
   height: 72px;
 }
-
-.filter-multiselect {
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   flex: 1;
-  height: 72px;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0E0E0E;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+}
+
+.filter-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 44px;
+  padding: 0 40px 0 14px;
+  border: 1.5px solid #B0B0B0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 15px;
+  font-family: var(--font-family-sans, 'PN Sans', sans-serif);
+  color: #0E0E0E;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: 2px solid #005d92;
+  border-color: #005d92;
+}
+
+.select-chevron {
+  position: absolute;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
 }
 
 .filter-search-btn {
