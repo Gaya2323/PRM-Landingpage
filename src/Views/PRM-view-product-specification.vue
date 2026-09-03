@@ -132,6 +132,9 @@
         if (modalTo)      modalTo.options      = toOptions
         if (modalAddon)   modalAddon.options   = addonOptions
 
+        console.log('pn-multiselect options assigned:', 
+        filterMultis.length, 'filter +', 
+        [modalProduct, modalIssuer, modalFrom, modalTo, modalAddon].filter(Boolean).length, 'modal')
         }
 
         //Kör direkt
@@ -139,6 +142,7 @@
 
         //Kör igen efter 800ms som fallback för Github Pages
         setTimeout(assignOptions, 800)
+        setTimeout(assignOptions, 1500)
         
     })
      
