@@ -110,8 +110,10 @@
     onMounted(async () => {
         // Vänta tills pn-multiselect är definierad i browsern
         await customElements.whenDefined('pn-multiselect')
+
+        const assignOptions = () => {
         
-       // Filter-raden
+            // Filter-raden
         const filterMultis = document.querySelectorAll('.filter-row pn-multiselect')
         if (filterMultis[0]) (filterMultis[0] as any).options = categoryOptions
         if (filterMultis[1]) (filterMultis[1] as any).options = countryOptions
@@ -129,6 +131,15 @@
         if (modalFrom)    modalFrom.options    = fromOptions
         if (modalTo)      modalTo.options      = toOptions
         if (modalAddon)   modalAddon.options   = addonOptions
+
+        }
+
+        //Kör direkt
+        assignOptions()
+
+        //Kör igen efter 800ms som fallback för Github Pages
+        setTimeout(assignOptions, 800)
+        
     })
      
 </script>
