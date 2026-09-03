@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <div class="prm-header-container">
+  <div class="prm-header-container" data-testid="hero-section">
 
     <div class="prm-header-inner">
 

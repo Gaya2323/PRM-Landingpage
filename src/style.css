@@ -333,9 +333,9 @@ pn-topbar > *,
   align-items: center;
   max-width: 1280px;
   width: 100%;
-  height: auto;
+  height: 520px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 25px 24px;
   box-sizing: border-box;
 }
 
@@ -569,6 +569,7 @@ pn-topbar > *,
 .pn-menu-div {
   width: 56px;
   min-height: calc(100vh - 56px); /*. calc(100vh - 56px)..*/
+  height: 1931px;
   background: var(--color-surface-elevated-primary, #FFFFFF);
   box-shadow: 0px 3.2px 7.2px 0px #00000021,
               0px 0.6px 1.8px 0px #0000001F;
@@ -1011,6 +1012,126 @@ pn-topbar > *,
   background: #e8f2f8;
 }
 
+/* ──Button= More Filters Modal ─────────────────────────── */
+.modal-filters-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.modal-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.modal-filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* ── pn-modal som drawer ─────────────────────────── */
+
+pn-modal {
+  display: none;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 414px !important;
+  height: 100vh !important;
+  background: #FFFFFF !important;
+  z-index: 201 !important;
+  overflow-y: auto !important;
+  box-shadow:
+    0px 25.6px 57.6px 0px rgba(0,0,0,0.22),
+    0px 4.8px 14.4px 0px rgba(0,0,0,0.18) !important;
+  border-top-left-radius: 16px !important;
+  border-bottom-left-radius: 16px !important;
+  padding: 62px 0 0 0 !important;
+  box-sizing: border-box !important;
+}
+
+pn-modal.drawer-open {
+  display: block !important;
+}
+
+/* Overlay bakom modalen */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+}
+
+.modal-backdrop.drawer-open {
+  display: block;
+}
+/* ── Drawer footer knappar ──────────────────────── */
+.drawer-footer-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  padding: 16px 24px !important;
+  border-top: 1px solid #e0e0e0 !important;
+  justify-content: center !important;
+}
+
+
+/* ── Drawer header ──────────────────────────────── */
+.drawer-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 32px 24px 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.drawer-modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+}
+
+.drawer-modal-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.drawer-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.drawer-modal-close svg {
+  width: 20px;
+  height: 20px;
+}
+/* ── Drawer filter body ─────────────────────────── */
+.modal-filters-body {
+  padding: 8px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 410px;
+  height:858px;
+}
+
+
+
+
 /* FILTER SECTION MEDIA QUERY....................*/
 
 /* Tablet 769px–1024px */
@@ -1030,7 +1151,7 @@ pn-topbar > *,
 
   .product-table {
     font-size: 12px;
-    min-width: 700px;       /* tabellen scrollar horisontellt om den inte ryms */
+    min-width: 700px; /* tabellen scrollar horisontellt om den inte ryms */
   }
 
   .product-table th,
@@ -1072,6 +1193,7 @@ pn-topbar > *,
     font-size: 14px;
     padding: 0 18px;
   }
+  
 }
 
 /* Mobil ≤768px */
@@ -1079,6 +1201,12 @@ pn-topbar > *,
 
   .filter-section {
     gap: 16px;
+  }
+  .drawer-modal-title {
+    padding-left: 20px;
+  }
+  .drawer-modal-subtitle {
+    padding-left: 20px;
   }
 
   .filter-row {

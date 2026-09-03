@@ -5,7 +5,7 @@
 
 
 <template>
-    <section class="faq-section">
+    <section class="faq-section" data-testid="faq-section">
 
         <!--ICON FAQ -->
         <div class="faq-icon-row">

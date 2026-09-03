@@ -11,7 +11,7 @@
 
 <template>
 
-  <div class="pn-page-container">
+  <div class="pn-page-container" data-testid="landing-page">
 
     <div class="pn-main-view">
       

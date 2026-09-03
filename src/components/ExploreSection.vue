@@ -1,6 +1,6 @@
 
 <template>
-    <section class="explore-section">
+    <section class="explore-section" data-testid="explore-section">
         <h2 class="explore-title">Explore product areas</h2>
 
         <div class="explore-cards">

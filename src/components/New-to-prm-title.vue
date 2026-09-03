@@ -1,6 +1,6 @@
 
 <template>
-    <section class="new-to-prm-section">
+    <section class="new-to-prm-section" data-testid="new-to-prm-title">
         <h2 class="new-to-prm-title">New to PRM?</h2>
 
         <div class="new-to-prm-cards">

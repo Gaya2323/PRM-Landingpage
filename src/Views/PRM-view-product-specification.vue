@@ -7,6 +7,7 @@
 
     const router = useRouter()
     const totalPages = ref(4)
+    const drawerOpen = ref(false)
 
     function goBack() {
     router.push('/')
@@ -31,8 +32,52 @@
         { label: 'Sweden', value: 'sweden'},
         { label: 'Finland', value: 'finland'},
         { label: 'Denmark', value: 'denmark'},
-        { label: 'Norway', value: 'norway'},
+    ];
+
+    const productOptions: MultiselectOption [] = [
+        { label: '18 - PN Parcel', value:'pn-parcel'},
+        { label: '20 - PN Return Pickup', value:'return-pickup'},
+        { label: '21 - PN Letter', value:'pn-letter'},
+        { label: '22 - PN Logistic', value:'pn-logistics'},
+
+    ];
+    const issuerOptions: MultiselectOption[] = [
+        { label: 'PN', value: 'pn' },
+        { label: 'DHL', value: 'dhl' },
+        { label: 'FedEx', value: 'fedex' },
     ]
+    const fromOptions: MultiselectOption[] = [
+        { label: 'Sweden', value: 'sweden' },
+        { label: 'Finland', value: 'finland' },
+        { label: 'Denmark', value: 'denmark' },
+        { label: 'Norway', value: 'norway' },
+        { label: 'Nordic', value: 'nordic' },
+        { label: 'EU', value: 'eu' },
+    ];
+
+    const toOptions: MultiselectOption[] = [
+        { label: 'Spain', value: 'spain' },
+        { label: 'World', value: 'world' },
+        { label: 'EU', value: 'eu' },
+        { label: 'Nordic', value: 'nordic' },
+    ];
+    const addonOptions: MultiselectOption[] = [
+        { label: 'Email notification', value: 'email' },
+        { label: 'Home delivery', value: 'home-delivery' },
+        { label: 'Tobacco', value: 'tobacco' },
+    ];
+
+    function openMoreFilters() {
+        drawerOpen.value = true
+    }
+
+    function resetFilters(){
+        drawerOpen.value = false
+    }
+
+    function applyFilters(){
+        drawerOpen.value = false
+    }
 
     function handleNavigation(event: CustomEvent){
         const { mouse, page } = event.detail
@@ -40,154 +85,231 @@
         router.push({ path: '/prodcut-specification', query:{ page }})
     }
 
-
-    onMounted(async () => {
-        // Vänta tills pn-multiselect är definierad i browsern
-        await customElements.whenDefined('pn-multiselect')
-        
-        const multis = document.querySelectorAll('pn-multiselect')
-        console.log('pn-multiselect hittades:', multis.length)
-        
-        if (multis[0]) {
-            (multis[0] as any).options = categoryOptions
-        }
-        if (multis[1]) {
-            (multis[1] as any).options = countryOptions
-        }
-     })
-     
-    //Table Contents
     interface TableRow {
         id: number
         product: string
         issuer: string
         from: string
         to: string
-        addons: string   // <-- ingen bindestreck!
+        addons: string
     }
-
     const tableRows: TableRow[] = [
         { id: 1, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic (Finland excluded)', to: 'World', addons: 'Tobacco, lorem ipsum, lorem ipsum' },
-        { id: 2, product: '19. PN Parcel', issuer: 'PN', from: 'Finland',  to: 'World', addons: 'Tobacco' },
-        { id: 3, product: '19. PN Parcel', issuer: 'PN', from: 'EU',       to: 'World', addons: 'Tobacco' },
-        { id: 4, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic',   to: 'EU',    addons: 'Tobacco' },
-        { id: 5, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic',   to: 'World', addons: 'Tobacco' },
+        { id: 2, product: '19. PN Parcel', issuer: 'PN', from: 'Finland', to: 'World', addons: 'Tobacco' },
+        { id: 3, product: '19. PN Parcel', issuer: 'PN', from: 'EU', to: 'World', addons: 'Tobacco' },
+        { id: 4, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'EU', addons: 'Tobacco' },
+        { id: 5, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'World', addons: 'Tobacco' },
         { id: 6, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
         { id: 7, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
         { id: 8, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
         { id: 9, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
         { id: 10, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-    ]
+    ];
 
+
+    onMounted(async () => {
+        // Vänta tills pn-multiselect är definierad i browsern
+        await customElements.whenDefined('pn-multiselect')
+        
+       // Filter-raden
+        const filterMultis = document.querySelectorAll('.filter-row pn-multiselect')
+        if (filterMultis[0]) (filterMultis[0] as any).options = categoryOptions
+        if (filterMultis[1]) (filterMultis[1] as any).options = countryOptions
+
+        // Modal — via id
+        const modalProduct = document.querySelector('#modal-product') as any
+        const modalIssuer  = document.querySelector('#modal-issuer')  as any
+        const modalFrom    = document.querySelector('#modal-from')    as any
+        const modalTo      = document.querySelector('#modal-to')      as any
+        const modalAddon   = document.querySelector('#modal-addon')   as any
+
+        // Modal-multiselects (index 2–6)
+        if (modalProduct) modalProduct.options = productOptions
+        if (modalIssuer)  modalIssuer.options  = issuerOptions
+        if (modalFrom)    modalFrom.options    = fromOptions
+        if (modalTo)      modalTo.options      = toOptions
+        if (modalAddon)   modalAddon.options   = addonOptions
+    })
+     
 </script>
 
 <template>
-  <div class="prm-wrapper">
+    <div class="prm-wrapper" data-testid="prm-view-product-specification">
 
-    <!-- Page Header -->
-    <div class="spec-header">
+        <!-- Page Header -->
+        <div class="spec-header">
 
-      <!-- Back link -->
-      <button class="spec-back-btn" @click="goBack" type="button">
-        <svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <path fill="#000" fill-rule="evenodd" d="M10.707 5.293a1 1 0 0 1 0 1.414L6.414 11H20a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0" clip-rule="evenodd"/>
-        </svg>
-        Back
-      </button>
+        <!-- Back link -->
+        <button class="spec-back-btn" @click="goBack" type="button">
+            <svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path fill="#000" fill-rule="evenodd" d="M10.707 5.293a1 1 0 0 1 0 1.414L6.414 11H20a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0" clip-rule="evenodd"/>
+            </svg>
+            Back
+        </button>
 
-      <!-- Heading + description Section--------------------------------->
-      <div class="spec-header-content">
-        <h1 class="spec-heading">Product Reference Master</h1>
-        <p class="spec-description">
-          The Product Reference Master (PRM) is PostNord's central source for official information on all
-          products, services, and add-ons — including letters, parcels, logistics, and digital services.
-        </p>
-      </div>
+        <!-- Heading + description Section--------------------------------->
+        <div class="spec-header-content">
+            <h1 class="spec-heading">Product Reference Master</h1>
+            <p class="spec-description">
+            The Product Reference Master (PRM) is PostNord's central source for official information on all
+            products, services, and add-ons — including letters, parcels, logistics, and digital services.
+            </p>
+        </div>
 
-      <!-- Tab list -->
-      <pn-tablist label="Menu" value="home" slot="menu">
-        <pn-tab label="Home" value="home"
-          icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M8.293 4.293A1 1 0 0 1 9 4h6a1 1 0 0 1 .707.293L17 5.586V5a1 1 0 1 1 2 0v2.586l1.707 1.707A1 1 0 0 1 21 10v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 .293-.707zM9.414 6l-3 3h3.172l3-3zM15 6.414l-4 4V18h2v-2.5a2.5 2.5 0 0 1 5 0V18h1v-7.586zM16 18v-2.5a.5.5 0 0 0-1 0V18zm-7 0v-7H5v7z" clip-rule="evenodd"/></svg>'
-        ></pn-tab>
-        <pn-tab label="Parcel page (PTM)" value="parcel"
-          icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M5.59 3.586A1 1 0 0 1 6.5 3h11a1 1 0 0 1 .91.586l2.142 4.711a5 5 0 0 1 .448 2.07V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7.634a5 5 0 0 1 .448-2.069zM7.144 5 5.553 8.5H11V5zM13 5v3.5h5.447L16.857 5zm6 5.5H5V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>'
-        ></pn-tab>
-        <pn-tab label="Letter page (PTM)" value="letter"
-          icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M4.56 3.457A3 3 0 0 1 7.132 2h9.736a3 3 0 0 1 2.572 1.457l1.848 3.078A5 5 0 0 1 22 9.108V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9.108a5 5 0 0 1 .713-2.573zM7.132 4a1 1 0 0 0-.857.486L4.428 7.563A3 3 0 0 0 4 9.108V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.108a3 3 0 0 0-.427-1.544l-1.848-3.078A1 1 0 0 0 16.868 4zM12 5.5a1 1 0 0 1 1 1V8h4.5a1 1 0 1 1 0 2h-11a1 1 0 0 1 0-2H11V6.5a1 1 0 0 1 1-1M6 13a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>'
-        ></pn-tab>
-        <pn-tab label="Logistics page (PTM)" value="logistics"
-          icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M1 8a5 5 0 0 1 5-5h7a3 3 0 0 1 3 3v1h2a3 3 0 0 1 2.4 1.2l2.4 3.2a1 1 0 0 1 .2.6v4a3 3 0 0 1-2.128 2.872A3.001 3.001 0 0 1 15.17 19H9.829a3.001 3.001 0 0 1-5.658 0H4a3 3 0 0 1-3-3zm3.17 9a3.001 3.001 0 0 1 5.66 0h5.34a3.001 3.001 0 0 1 5.538-.293c.18-.181.292-.431.292-.707v-3.667L18.8 9.4A1 1 0 0 0 18 9h-2v3a1 1 0 1 1-2 0V6a1 1 0 0 0-1-1H6a3 3 0 0 0-3 3v8a1 1 0 0 0 1 1zM8 18a1 1 0 1 0-2 0 1 1 0 0 0 2 0m10-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2" clip-rule="evenodd"/></svg>'
-        ></pn-tab>
-        <pn-tab label="Add-on page (PTM)" value="addon"
-          icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M12 2a1 1 0 0 1 1 1v8h8a1 1 0 1 1 0 2h-8v8a1 1 0 1 1-2 0v-8H3a1 1 0 1 1 0-2h8V3a1 1 0 0 1 1-1" clip-rule="evenodd"/></svg>'
-        ></pn-tab>
-      </pn-tablist>
+        <!-- Tab list -->
+        <pn-tablist label="Menu" value="home" slot="menu">
+            <pn-tab label="Home" value="home"
+            icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M8.293 4.293A1 1 0 0 1 9 4h6a1 1 0 0 1 .707.293L17 5.586V5a1 1 0 1 1 2 0v2.586l1.707 1.707A1 1 0 0 1 21 10v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 .293-.707zM9.414 6l-3 3h3.172l3-3zM15 6.414l-4 4V18h2v-2.5a2.5 2.5 0 0 1 5 0V18h1v-7.586zM16 18v-2.5a.5.5 0 0 0-1 0V18zm-7 0v-7H5v7z" clip-rule="evenodd"/></svg>'
+            ></pn-tab>
+            <pn-tab label="Parcel page (PTM)" value="parcel"
+            icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M5.59 3.586A1 1 0 0 1 6.5 3h11a1 1 0 0 1 .91.586l2.142 4.711a5 5 0 0 1 .448 2.07V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7.634a5 5 0 0 1 .448-2.069zM7.144 5 5.553 8.5H11V5zM13 5v3.5h5.447L16.857 5zm6 5.5H5V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>'
+            ></pn-tab>
+            <pn-tab label="Letter page (PTM)" value="letter"
+            icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M4.56 3.457A3 3 0 0 1 7.132 2h9.736a3 3 0 0 1 2.572 1.457l1.848 3.078A5 5 0 0 1 22 9.108V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9.108a5 5 0 0 1 .713-2.573zM7.132 4a1 1 0 0 0-.857.486L4.428 7.563A3 3 0 0 0 4 9.108V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.108a3 3 0 0 0-.427-1.544l-1.848-3.078A1 1 0 0 0 16.868 4zM12 5.5a1 1 0 0 1 1 1V8h4.5a1 1 0 1 1 0 2h-11a1 1 0 0 1 0-2H11V6.5a1 1 0 0 1 1-1M6 13a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>'
+            ></pn-tab>
+            <pn-tab label="Logistics page (PTM)" value="logistics"
+            icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M1 8a5 5 0 0 1 5-5h7a3 3 0 0 1 3 3v1h2a3 3 0 0 1 2.4 1.2l2.4 3.2a1 1 0 0 1 .2.6v4a3 3 0 0 1-2.128 2.872A3.001 3.001 0 0 1 15.17 19H9.829a3.001 3.001 0 0 1-5.658 0H4a3 3 0 0 1-3-3zm3.17 9a3.001 3.001 0 0 1 5.66 0h5.34a3.001 3.001 0 0 1 5.538-.293c.18-.181.292-.431.292-.707v-3.667L18.8 9.4A1 1 0 0 0 18 9h-2v3a1 1 0 1 1-2 0V6a1 1 0 0 0-1-1H6a3 3 0 0 0-3 3v8a1 1 0 0 0 1 1zM8 18a1 1 0 1 0-2 0 1 1 0 0 0 2 0m10-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2" clip-rule="evenodd"/></svg>'
+            ></pn-tab>
+            <pn-tab label="Add-on page (PTM)" value="addon"
+            icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M12 2a1 1 0 0 1 1 1v8h8a1 1 0 1 1 0 2h-8v8a1 1 0 1 1-2 0v-8H3a1 1 0 1 1 0-2h8V3a1 1 0 0 1 1-1" clip-rule="evenodd"/></svg>'
+            ></pn-tab>
+        </pn-tablist>
 
+        </div>
+
+        <!-- Page content -------------------------->
+        <div class="prm-inner-wrapper">
+        
+            <!--Filter Section------------------>
+            <div class="filter-section">
+                <h2 class="filter-heading">View Product Specifications</h2>
+
+                <div class="filter-row">
+
+                    <!-- Dropdown 1 -->
+                    <div class="filter-group">
+                        <label class="filter-label">Filter by product category</label>
+                        <div class="filter-select-wrapper">
+                            <select class="filter-select">
+                            <option value="all">All products</option>
+                            <option value="parcel">Parcel</option>
+                            <option value="letter">Letter</option>
+                            <option value="logistics">Logistics</option>
+                            <option value="addon">Add-on</option>
+                            </select>
+                            <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown 2 -->
+                    <div class="filter-group">
+                        <label class="filter-label">Filter by country/area</label>
+                        <div class="filter-select-wrapper">
+                            <select class="filter-select">
+                            <option value="worldwide">Worldwide</option>
+                            <option value="sweden">Sweden</option>
+                            <option value="finland">Finland</option>
+                            <option value="denmark">Denmark</option>
+                            <option value="norway">Norway</option>
+                            </select>
+                            <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                <!--Search button-->
+                <button class="filter-search-btn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path fill="#fff" fill-rule="evenodd" d="M10 4a6 6 0 1 0 0 12A6 6 0 0 0 10 4M2 10a8 8 0 1 1 14.906 4.092l4.001 4.001a1 1 0 0 1-1.414 1.414l-4.001-4A8 8 0 0 1 2 10" clip-rule="evenodd"/>
+                    </svg>
+                Search
+                </button>
+
+            </div>
+
+        <!--More filters button + Modal-->
+        <div class="filter-more-row">
+
+            <div @click="openMoreFilters">
+                <pn-button
+                    label="More filters"
+                    appearance="outlined"
+                    icon='&lt;svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"&gt;&lt;path fill="currentColor" fill-rule="evenodd" d="M3 5a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2h-.65l-.763.611a17.7 17.7 0 0 0-4.087 4.663v4.69a2 2 0 0 1-.89 1.665l-1 .667c-1.33.886-3.11-.067-3.11-1.665v-5.357a17.7 17.7 0 0 0-4.087-4.663L4.65 6H4a1 1 0 0 1-1-1m4.765 1a19.7 19.7 0 0 1 3.3 4h1.87c.92-1.474 2.03-2.82 3.3-4zm4.735 6h-1v4.631l1-.666z" clip-rule="evenodd"/&gt;&lt;/svg&gt;'
+                    ariahaspopup="dialog"
+                ></pn-button>
+            </div>
+
+            <!-- Backdrop -->
+            <div class="modal-backdrop" :class="{ 'drawer-open': drawerOpen }" @click="resetFilters"></div>
+            
+            <!--pn-modal styrd via CSS-->
+            <pn-modal
+                ref="modalRef"
+                label="All filters"
+                helpertext="Multiple selections allowed"
+                :class="{ 'drawer-open': drawerOpen }">
+
+                <!-- Manuell header eftersom pn-modal inte renderar label/helpertext synligt -->
+                <div class="drawer-modal-header">
+                    <div>
+                    <h2 class="drawer-modal-title">All filters</h2>
+                    <p class="drawer-modal-subtitle">Multiple selections allowed</p>
+                    </div>
+                    <button class="drawer-modal-close" type="button" @click="resetFilters">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path fill="#000" fill-rule="evenodd" d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
+                    </svg>
+                    </button>
+                </div>
+
+
+                <div class="modal-filters-body">
+
+                    <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
+                        <pn-multiselect id="modal-product" label="Product"></pn-multiselect>
+                    </div>
+
+                    <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
+                        <pn-multiselect id="modal-issuer" label="Issuer"></pn-multiselect>
+                    </div>
+
+                    <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
+                        <pn-multiselect id="modal-from" label="From"></pn-multiselect>
+                    </div>
+
+                    <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
+                        <pn-multiselect id="modal-to" label="To"></pn-multiselect>
+                    </div>
+
+                    <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
+                        <pn-multiselect id="modal-addon"  label="Add-on services"></pn-multiselect>
+                    </div>
+
+                </div>
+
+                <!-- Apply  Filters button---->
+                <div slot="buttons" class="drawer-footer-row">
+                    <div @click="resetFilters">
+                        <pn-button label="Reset filters" appearance="light" variant="outlined"></pn-button>
+                    </div>
+                    <!-- Apply  Filters button---->
+                    <div @click="applyFilters" style="cursor: pointer;">    
+                        <pn-button 
+						 label="Apply filters"
+						 icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M19.707 11.293a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L16.586 13H8a1 1 0 1 1 0-2h8.586l-4.293-4.293a1 1 0 0 1 1.414-1.414zM5.01 13H5a1 1 0 1 1 0-2h.01a1 1 0 1 1 0 2" clip-rule="evenodd"/></svg>'
+						 slot="buttons">
+						 </pn-button>
+                    </div>
+                </div>
+
+            </pn-modal>
+        </div>
     </div>
 
-    <!-- Page content -------------------------->
-    <div class="prm-inner-wrapper">
-      
-        <!--Filter Section------------------>
-        <div class="filter-section">
-            <h2 class="filter-heading">View Product Specifications</h2>
-
-            <div class="filter-row">
-
-                <!-- Dropdown 1 -->
-                <div class="filter-group">
-                    <label class="filter-label">Filter by product category</label>
-                    <div class="filter-select-wrapper">
-                        <select class="filter-select">
-                        <option value="all">All products</option>
-                        <option value="parcel">Parcel</option>
-                        <option value="letter">Letter</option>
-                        <option value="logistics">Logistics</option>
-                        <option value="addon">Add-on</option>
-                        </select>
-                        <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Dropdown 2 -->
-                <div class="filter-group">
-                    <label class="filter-label">Filter by country/area</label>
-                    <div class="filter-select-wrapper">
-                        <select class="filter-select">
-                        <option value="worldwide">Worldwide</option>
-                        <option value="sweden">Sweden</option>
-                        <option value="finland">Finland</option>
-                        <option value="denmark">Denmark</option>
-                        <option value="norway">Norway</option>
-                        </select>
-                        <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-
-            <!--Search button-->
-            <button class="filter-search-btn" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path fill="#fff" fill-rule="evenodd" d="M10 4a6 6 0 1 0 0 12A6 6 0 0 0 10 4M2 10a8 8 0 1 1 14.906 4.092l4.001 4.001a1 1 0 0 1-1.414 1.414l-4.001-4A8 8 0 0 1 2 10" clip-rule="evenodd"/>
-                </svg>
-            Search
-            </button>
-
-        </div>
-
-        <!--More filters button-->
-            <div class="filter-more-row">
-                <button class="filter-more-btn" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path fill="currentColor" fill-rule="evenodd" d="M3 5a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1m3 7a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m3 6a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1" clip-rule="evenodd"/>
-                </svg>
-                More filters
-                </button>
-            </div>
-        </div>
+    
 
         <!--Table Section ----->
         <pn-table bordered="true" class="product-table-outer">

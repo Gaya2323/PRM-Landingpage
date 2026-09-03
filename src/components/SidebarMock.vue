@@ -4,6 +4,7 @@ const isOpen = ref(false)
 </script>
 
 <template>
+  <section data-testid="sidebarmock">
 
   <!-- Hamburger-button — visible only when ≤1024px -->
   <button
@@ -138,5 +139,7 @@ const isOpen = ref(false)
 
     </ul>
   </div>
+
+  </section>
 
 </template>
