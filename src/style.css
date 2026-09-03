@@ -862,6 +862,18 @@ pn-topbar > *,
   line-height: var(--line-height-paragraph-xl, 1.6);
   letter-spacing: normal;
 }
+.pn-tablist-scroll {
+  display: none !important;
+}
+
+.pn-tablist {
+  overflow: visible !important;
+}
+
+.pn-tab {
+  white-space: nowrap;
+}
+
 
 /* Figma: width 1280, padding 48px alla sidor utom bottom 88px */
 .prm-inner-wrapper {

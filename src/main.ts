@@ -30,4 +30,22 @@ defineCustomElementPnMultiselect()
 defineCustomElementPnTable()
 defineCustomElementPnPagination()
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+
+//Fånga fel JS-fel globalt
+window.addEventListener('error',(event) => {
+    if(event.message?.includes('scrollWidth') || event.message?.includes('tabListEl')) {
+        console.warn('pn-tablist error suppressed:', event.message)
+        event.preventDefault()
+        return false
+    }
+})
+
+window.addEventListener('unhandledrejection', (event) => {
+    if (event.reason?.message?.includes('scrollWidth') || event.reason?.message?.includes('tabListEl')) {
+        console.warn('pn-tablist promise error suppressed:', event.reason.message)
+        event.preventDefault()
+    }
+})
+
+app.use(router).mount('#app')
