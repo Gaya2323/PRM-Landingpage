@@ -1,151 +1,183 @@
 <script setup lang="ts">
-    import { useRouter } from 'vue-router'
-    /*import type { PnMultiselectOption } from '@postnord/web-components/types';*/
-    import { onMounted, ref } from 'vue'
-    
-   
+  import { useRouter } from 'vue-router'
+  import { onMounted, ref, watch } from 'vue'
 
-    const router = useRouter()
-    const totalPages = ref(4)
-    const drawerOpen = ref(false)
+  const router = useRouter()
+  const totalPages = ref(4)
+  const drawerOpen = ref(false)
+  const drawerMounted = ref(false)
 
-    function goBack() {
+  function goBack() {
     router.push('/')
-    }
-   
-    interface MultiselectOption {
-        label: string
-        value: string
-    }
+  }
 
-    const categoryOptions: MultiselectOption[] = [
-        { label: 'Parcel products', value: 'parcel'},
-        { label: 'Letter products', value: 'letter'},
-        { label: 'Logistics', value: 'logistics'},
-        { label: 'Add-on products', value: 'addon'},
-        { label: 'AAAA', value: 'aaaa'},
+  interface MultiselectOption {
+    label: string
+    value: string
+  }
 
-    ];
+  const categoryOptions: MultiselectOption[] = [
+    { label: 'Parcel products', value: 'parcel' },
+    { label: 'Letter products', value: 'letter' },
+    { label: 'Logistics', value: 'logistics' },
+    { label: 'Add-on products', value: 'addon' },
+    { label: 'AAAA', value: 'aaaa' },
+  ]
 
-    const countryOptions: MultiselectOption[] = [
-        { label: 'Crossborder', value: 'crossborder'},
-        { label: 'Sweden', value: 'sweden'},
-        { label: 'Finland', value: 'finland'},
-        { label: 'Denmark', value: 'denmark'},
-    ];
+  const countryOptions: MultiselectOption[] = [
+    { label: 'Crossborder', value: 'crossborder' },
+    { label: 'Sweden', value: 'sweden' },
+    { label: 'Finland', value: 'finland' },
+    { label: 'Denmark', value: 'denmark' },
+  ]
 
-    const productOptions: MultiselectOption [] = [
-        { label: '18 - PN Parcel', value:'pn-parcel'},
-        { label: '20 - PN Return Pickup', value:'return-pickup'},
-        { label: '21 - PN Letter', value:'pn-letter'},
-        { label: '22 - PN Logistic', value:'pn-logistics'},
+  const productOptions: MultiselectOption[] = [
+    { label: '18 - PN Parcel', value: 'pn-parcel' },
+    { label: '20 - PN Return Pickup', value: 'return-pickup' },
+    { label: '21 - PN Letter', value: 'pn-letter' },
+    { label: '22 - PN Logistic', value: 'pn-logistics' },
+  ]
 
-    ];
-    const issuerOptions: MultiselectOption[] = [
-        { label: 'PN', value: 'pn' },
-        { label: 'DHL', value: 'dhl' },
-        { label: 'FedEx', value: 'fedex' },
+  const issuerOptions: MultiselectOption[] = [
+    { label: 'PN', value: 'pn' },
+    { label: 'DHL', value: 'dhl' },
+    { label: 'FedEx', value: 'fedex' },
+  ]
+
+  const fromOptions: MultiselectOption[] = [
+    { label: 'Sweden', value: 'sweden' },
+    { label: 'Finland', value: 'finland' },
+    { label: 'Denmark', value: 'denmark' },
+    { label: 'Norway', value: 'norway' },
+    { label: 'Nordic', value: 'nordic' },
+    { label: 'EU', value: 'eu' },
+  ]
+
+  const toOptions: MultiselectOption[] = [
+    { label: 'Spain', value: 'spain' },
+    { label: 'World', value: 'world' },
+    { label: 'EU', value: 'eu' },
+    { label: 'Nordic', value: 'nordic' },
+  ]
+
+  const addonOptions: MultiselectOption[] = [
+    { label: 'Email notification', value: 'email' },
+    { label: 'Home delivery', value: 'home-delivery' },
+    { label: 'Tobacco', value: 'tobacco' },
+  ]
+
+  function openMoreFilters() {
+    drawerMounted.value = true        // ← montera DOM-element först
+    setTimeout(() => {
+      drawerOpen.value = true         // ← öppna efter 50ms
+    }, 50)
+  }
+
+  function resetFilters() {
+    const entries = [
+      { id: '#modal-product', opts: productOptions },
+      { id: '#modal-issuer',  opts: issuerOptions  },
+      { id: '#modal-from',    opts: fromOptions    },
+      { id: '#modal-to',      opts: toOptions      },
+      { id: '#modal-addon',   opts: addonOptions   },
     ]
-    const fromOptions: MultiselectOption[] = [
-        { label: 'Sweden', value: 'sweden' },
-        { label: 'Finland', value: 'finland' },
-        { label: 'Denmark', value: 'denmark' },
-        { label: 'Norway', value: 'norway' },
-        { label: 'Nordic', value: 'nordic' },
-        { label: 'EU', value: 'eu' },
-    ];
 
-    const toOptions: MultiselectOption[] = [
-        { label: 'Spain', value: 'spain' },
-        { label: 'World', value: 'world' },
-        { label: 'EU', value: 'eu' },
-        { label: 'Nordic', value: 'nordic' },
-    ];
-    const addonOptions: MultiselectOption[] = [
-        { label: 'Email notification', value: 'email' },
-        { label: 'Home delivery', value: 'home-delivery' },
-        { label: 'Tobacco', value: 'tobacco' },
-    ];
+    entries.forEach(({ id, opts }) => {
+      const el = document.querySelector(id) as any
+      if (!el) return
 
-    function openMoreFilters() {
-        drawerOpen.value = true
-    }
-
-    function resetFilters(){
-        drawerOpen.value = false
-    }
-
-    function applyFilters(){
-        drawerOpen.value = false
-    }
-
-    function handleNavigation(event: CustomEvent){
-        const { mouse, page } = event.detail
-        mouse.preventDefault()
-        router.push({ path: '/prodcut-specification', query:{ page }})
-    }
-
-    interface TableRow {
-        id: number
-        product: string
-        issuer: string
-        from: string
-        to: string
-        addons: string
-    }
-    const tableRows: TableRow[] = [
-        { id: 1, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic (Finland excluded)', to: 'World', addons: 'Tobacco, lorem ipsum, lorem ipsum' },
-        { id: 2, product: '19. PN Parcel', issuer: 'PN', from: 'Finland', to: 'World', addons: 'Tobacco' },
-        { id: 3, product: '19. PN Parcel', issuer: 'PN', from: 'EU', to: 'World', addons: 'Tobacco' },
-        { id: 4, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'EU', addons: 'Tobacco' },
-        { id: 5, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'World', addons: 'Tobacco' },
-        { id: 6, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-        { id: 7, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-        { id: 8, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-        { id: 9, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-        { id: 10, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
-    ];
-
-
-    onMounted(async () => {
-        // Vänta tills pn-multiselect är definierad i browsern
-        await customElements.whenDefined('pn-multiselect')
-
-        const assignOptions = () => {
-        
-            // Filter-raden
-        const filterMultis = document.querySelectorAll('.filter-row pn-multiselect')
-        if (filterMultis[0]) (filterMultis[0] as any).options = categoryOptions
-        if (filterMultis[1]) (filterMultis[1] as any).options = countryOptions
-
-        // Modal — via id
-        const modalProduct = document.querySelector('#modal-product') as any
-        const modalIssuer  = document.querySelector('#modal-issuer')  as any
-        const modalFrom    = document.querySelector('#modal-from')    as any
-        const modalTo      = document.querySelector('#modal-to')      as any
-        const modalAddon   = document.querySelector('#modal-addon')   as any
-
-        // Modal-multiselects (index 2–6)
-        if (modalProduct) modalProduct.options = productOptions
-        if (modalIssuer)  modalIssuer.options  = issuerOptions
-        if (modalFrom)    modalFrom.options    = fromOptions
-        if (modalTo)      modalTo.options      = toOptions
-        if (modalAddon)   modalAddon.options   = addonOptions
-
-        console.log('pn-multiselect options assigned:', 
-        filterMultis.length, 'filter +', 
-        [modalProduct, modalIssuer, modalFrom, modalTo, modalAddon].filter(Boolean).length, 'modal')
-        }
-
-        //Kör direkt
-        assignOptions()
-
-        //Kör igen efter 800ms som fallback för Github Pages
-        setTimeout(assignOptions, 800)
-        setTimeout(assignOptions, 1500)
-        
+      // Sätt checked: false på alla options — det är här valet lagras!
+        const clearedOpts = opts.map(o => ({ ...o, checked: false }))
+        el.options = clearedOpts
     })
-     
+
+    console.log('resetFilters körd')
+  }
+
+  function applyFilters() {
+    drawerOpen.value = false
+  }
+
+  function closeDrawer() {
+    drawerOpen.value = false
+  }
+
+  function handleNavigation(event: CustomEvent) {
+    const { mouse, page } = event.detail
+    mouse.preventDefault()
+    router.push({ path: '/product-specification', query: { page } })
+  }
+
+  interface TableRow {
+    id: number
+    product: string
+    issuer: string
+    from: string
+    to: string
+    addons: string
+  }
+
+  const tableRows: TableRow[] = [
+    { id: 1, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic (Finland excluded)', to: 'World', addons: 'Tobacco, lorem ipsum, lorem ipsum' },
+    { id: 2, product: '19. PN Parcel', issuer: 'PN', from: 'Finland', to: 'World', addons: 'Tobacco' },
+    { id: 3, product: '19. PN Parcel', issuer: 'PN', from: 'EU', to: 'World', addons: 'Tobacco' },
+    { id: 4, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'EU', addons: 'Tobacco' },
+    { id: 5, product: '19. PN Parcel', issuer: 'PN', from: 'Nordic', to: 'World', addons: 'Tobacco' },
+    { id: 6, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
+    { id: 7, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
+    { id: 8, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
+    { id: 9, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
+    { id: 10, product: 'Body text', issuer: 'Body text', from: 'Body text', to: 'Body text', addons: 'Body text' },
+  ]
+
+  // watch — triggas när drawern monteras första gången
+  watch(drawerMounted, (val) => {
+    if (!val) return
+    setTimeout(() => {
+      const modalProduct = document.querySelector('#modal-product') as any
+      const modalIssuer  = document.querySelector('#modal-issuer')  as any
+      const modalFrom    = document.querySelector('#modal-from')    as any
+      const modalTo      = document.querySelector('#modal-to')      as any
+      const modalAddon   = document.querySelector('#modal-addon')   as any
+
+      if (modalProduct) modalProduct.options = productOptions
+      if (modalIssuer)  modalIssuer.options  = issuerOptions
+      if (modalFrom)    modalFrom.options    = fromOptions
+      if (modalTo)      modalTo.options      = toOptions
+      if (modalAddon)   modalAddon.options   = addonOptions
+
+      console.log('modal options assigned')
+    }, 800)
+  })
+
+  // onMounted — endast filter-raden
+  onMounted(async () => {
+    await customElements.whenDefined('pn-multiselect')
+
+    const modal = document.querySelector('pn-modal') as any
+    if (modal) {
+      modal.addEventListener('close', () => {
+        drawerOpen.value = false
+      })
+    }
+
+    const assignOptions = () => {
+      const filterProductCat  = document.querySelector('#filter-product-category') as any
+      const filterCountryArea = document.querySelector('#filter-country-area') as any
+
+      if (filterProductCat)  filterProductCat.options  = categoryOptions
+      if (filterCountryArea) filterCountryArea.options = countryOptions
+
+      console.log('filter options assigned:',
+        'product-category:', !!filterProductCat,
+        'country-area:', !!filterCountryArea
+      )
+    }
+
+    assignOptions()
+    setTimeout(assignOptions, 800)
+    setTimeout(assignOptions, 1500)
+  })
 </script>
 
 <template>
@@ -171,7 +203,7 @@
             </p>
         </div>
 
-        <!-- Tab list -->
+        <!-- Nav list under the h1 -->
         <pn-tablist label="Menu" value="home" slot="menu">
             <pn-tab label="Home" value="home"
             icon='<svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#000" fill-rule="evenodd" d="M8.293 4.293A1 1 0 0 1 9 4h6a1 1 0 0 1 .707.293L17 5.586V5a1 1 0 1 1 2 0v2.586l1.707 1.707A1 1 0 0 1 21 10v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 .293-.707zM9.414 6l-3 3h3.172l3-3zM15 6.414l-4 4V18h2v-2.5a2.5 2.5 0 0 1 5 0V18h1v-7.586zM16 18v-2.5a.5.5 0 0 0-1 0V18zm-7 0v-7H5v7z" clip-rule="evenodd"/></svg>'
@@ -203,36 +235,12 @@
 
                     <!-- Dropdown 1 -->
                     <div class="filter-group">
-                        <label class="filter-label">Filter by product category</label>
-                        <div class="filter-select-wrapper">
-                            <select class="filter-select">
-                            <option value="all">All products</option>
-                            <option value="parcel">Parcel</option>
-                            <option value="letter">Letter</option>
-                            <option value="logistics">Logistics</option>
-                            <option value="addon">Add-on</option>
-                            </select>
-                            <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
+                        <pn-multiselect id="filter-product-category" label="Filter by product category"></pn-multiselect>
                     </div>
 
                     <!-- Dropdown 2 -->
                     <div class="filter-group">
-                        <label class="filter-label">Filter by country/area</label>
-                        <div class="filter-select-wrapper">
-                            <select class="filter-select">
-                            <option value="worldwide">Worldwide</option>
-                            <option value="sweden">Sweden</option>
-                            <option value="finland">Finland</option>
-                            <option value="denmark">Denmark</option>
-                            <option value="norway">Norway</option>
-                            </select>
-                            <svg class="select-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <path fill="#000" fill-rule="evenodd" d="M5.293 8.293a1 1 0 0 1 1.414 0L12 13.586l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
+                        <pn-multiselect id="filter-country-area" label="Filter by country/area"></pn-multiselect>
                     </div>
 
                 <!--Search button-->
@@ -258,7 +266,7 @@
             </div>
 
             <!-- Backdrop -->
-            <div class="modal-backdrop" :class="{ 'drawer-open': drawerOpen }" @click="resetFilters"></div>
+            <div class="modal-backdrop" :class="{ 'drawer-open': drawerOpen }" @click="closeDrawer"></div>
             
             <!--pn-modal styrd via CSS-->
             <pn-modal
@@ -273,15 +281,14 @@
                     <h2 class="drawer-modal-title">All filters</h2>
                     <p class="drawer-modal-subtitle">Multiple selections allowed</p>
                     </div>
-                    <button class="drawer-modal-close" type="button" @click="resetFilters">
+                    <button class="drawer-modal-close" type="button" @click="closeDrawer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <path fill="#000" fill-rule="evenodd" d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414" clip-rule="evenodd"/>
                     </svg>
                     </button>
                 </div>
 
-
-                <div class="modal-filters-body">
+                <div class="modal-filters-body" v-if="drawerMounted">
 
                     <div style="width: 20em; margin: 0 auto 20px; display: flex; flex-direction: column;">
                         <pn-multiselect id="modal-product" label="Product"></pn-multiselect>

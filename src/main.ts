@@ -41,11 +41,16 @@ window.addEventListener('error',(event) => {
     }
 })
 
-window.addEventListener('unhandledrejection', (event) => {
-    if (event.reason?.message?.includes('scrollWidth') || event.reason?.message?.includes('tabListEl')) {
-        console.warn('pn-tablist promise error suppressed:', event.reason.message)
-        event.preventDefault()
-    }
+// Patcha pn-tablist för att förhindra scrollWidth-krasch på GitHub Pages
+window.addEventListener('DOMContentLoaded', () => {
+  const observer = new MutationObserver(() => {
+    const tablists = document.querySelectorAll('pn-tablist')
+    tablists.forEach((tablist: any) => {
+      if (!tablist.tabListEl) {
+        tablist.tabListEl = tablist.querySelector('.pn-tablist') || tablist
+      }
+    })
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
 })
-
 app.use(router).mount('#app')
