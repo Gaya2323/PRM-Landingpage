@@ -5,8 +5,8 @@
     import { onMounted, ref } from 'vue'
 
     const router = useRouter()
-    const drawerOpen = ref(false)
-    const drawerMounted = ref(false)
+    /*const drawerOpen = ref(false)
+    const drawerMounted = ref(false)*/
     const activeMenu = ref<number | null>(null)
 
     function goBack() {
@@ -90,7 +90,7 @@
         { id: 5, product: '19, PN Parcel', issuer: 'PN', from: 'Nordic', to: 'World', addons: 'Tobacco' },
     ]
 
-    const internalFlowRows: TableRow[] = [
+    /*const internalFlowRows: TableRow[] = [
     { id: 1, product: '19, PN Parcel', issuer: 'PN', from: 'Nordic (Finland excluded)', to: 'World', addons: 'Tobacco, lorem ipsum, lorem ipsum' },
     { id: 2, product: '19, PN Parcel', issuer: 'PN', from: 'Finland', to: 'World', addons: 'Tobacco' },
     { id: 3, product: '19, PN Parcel', issuer: 'PN', from: 'EU', to: 'World', addons: 'Tobacco' },
@@ -104,7 +104,7 @@
     { id: 3, product: '19, PN Parcel', issuer: 'PN', from: 'EU', to: 'World', addons: 'Tobacco' },
     { id: 4, product: '19, PN Parcel', issuer: 'PN', from: 'Nordic', to: 'EU', addons: 'Tobacco' },
     { id: 5, product: '19, PN Parcel', issuer: 'PN', from: 'Nordic', to: 'World', addons: 'Tobacco' },
-    ]
+    ]*/
 
     function toggleMenu(id: number){
         activeMenu.value = activeMenu.value === id ? null: id
