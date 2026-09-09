@@ -25,7 +25,7 @@
         </p>
       </div>
     
-     <div class="prm-header-buttons">
+      <div class="prm-header-buttons">
         <!-- Heading Button 1 -->
         <pn-button
           label="Learn how PRM works"
