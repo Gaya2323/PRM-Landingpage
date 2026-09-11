@@ -46,18 +46,21 @@
             </div>
             
 
-            <!--3rd CARD-->
-            <pn-card label="Logistics" text="Transport and logistics solutions."
-                aspect-ratio="278/170"
-                href="#"
-                href-label="Explore logistics">
+            <!--3rd CARD-Logistics-->
+            <div @click.prevent="router.push('/product-configuration')">
+                <pn-card label="Logistics" text="Transport and logistics solutions."
+                    aspect-ratio="278/170"
+                    href="#"
+                    href-label="Explore logistics">
+                
+                    <!--Image Postnord van driver comes out-->        
+                    <img
+                        src="../assets/images/20260601-coworker-deliver-parcel.jpg"
+                        alt="Logistics"
+                        slot="image"/>
+                </pn-card>
+            </div>
             
-            <!--Image Postnord van driver comes out-->        
-            <img
-                src="../assets/images/20260601-coworker-deliver-parcel.jpg"
-                alt="Logistics"
-                slot="image"/>
-            </pn-card>
 
             <!--4 th CARD-->
             <pn-card

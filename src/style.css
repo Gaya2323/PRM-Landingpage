@@ -1556,7 +1556,41 @@ pn-modal.drawer-open {
     width: 100%;
 }
 
-/*....CONFIG - TABLE SECTIONS..........*/
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+    
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 32px;
+    padding: 4px 4px 4px 12px;
+    border-radius: var(--pn-border-radius-md, 8px);
+    border: 1px solid #2A2A2A80;
+    font-size: 13px;
+    color: var(--text-primary);
+    background: white;
+    white-space: nowrap;
+}
+
+.filter-chip-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2A2A2A;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+/*....CONFIG - TABLE SECTIONS...........................................*/
 .config-table-section {
     display: flex;
     flex-direction: column;

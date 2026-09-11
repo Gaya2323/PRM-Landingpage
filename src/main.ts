@@ -10,7 +10,8 @@ import {
     defineCustomElementPnTab,
     defineCustomElementPnMultiselect,
     defineCustomElementPnTable,
-    defineCustomElementPnPagination
+    defineCustomElementPnPagination,
+    defineCustomElementPnInputChip,
 } from '@postnord/web-components/components'
 
 import 'pn-design-assets/pn-assets/styles/pn-styles.scss'
@@ -29,6 +30,7 @@ defineCustomElementPnTab()
 defineCustomElementPnMultiselect()
 defineCustomElementPnTable()
 defineCustomElementPnPagination()
+defineCustomElementPnInputChip()
 
 const app = createApp(App)
 
