@@ -2,8 +2,10 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
-    import { ref, computed } from 'vue'
+    import { ref, computed, onMounted } from 'vue'
     import type { PnMultiselectOption } from '@postnord/web-components/types'
+    import { fetchIssuers, fetchProductCategories, fetchFromCountries, fetchToCountries, fetchProductEntries  } from '../services/prmApi'
+
    
 
     const router = useRouter()
@@ -23,91 +25,20 @@
             router.push('#')
     }
 
+    //Product Category Options
+    const categoryOptions = ref<PnMultiselectOption[]>([])
 
-    const categoryOptions = ref<PnMultiselectOption[]>([
-        { label: 'Parcel products', value: 'parcel', checked: false },
-        { label: 'Letter products', value: 'letter', checked: false },
-        { label: 'Logistics', value: 'logistics', checked: false },
-        { label: 'Add-on products', value: 'addon', checked: false },
-    ])
+    //Issuer Options
+    const issuerOptions = ref<PnMultiselectOption[]>([])
 
-    const issuerOptions = ref<PnMultiselectOption[]>([
-        { label: 'DL-ZDL', value: 'ZDL', checked: false },
-        { label: 'DE-Z10', value: 'Z10', checked: false },
-        { label: 'DK-Z11', value: 'Z11', checked: false },
-        { label: 'SE-Z12', value: 'Z12', checked: false },
-        { label: 'NO-Z13', value: 'Z13', checked: false },
-        { label: 'FI-Z14', value: 'Z14', checked: false },
-        { label: 'ALL-ZALL', value: 'ZALL', checked: false },
-    ])
+    //From Country
+    const fromOptions = ref<PnMultiselectOption[]>([]) 
 
-    const fromOptions = ref<PnMultiselectOption[]>([
-        { label: 'SE', value: 'SE' ,checked: false },
-        { label: 'FI', value: 'FI' ,checked: false },
-        { label: 'DK', value: 'DK' ,checked: false },
-        { label: 'NO', value: 'NO' ,checked: false },
-        { label: 'AX', value: 'AX' ,checked: false },
-        { label: 'AT', value: 'AT' ,checked: false },
-        { label: 'BE', value: 'BE' ,checked: false },
-        { label: 'BG', value: 'BG' ,checked: false },
-        { label: 'CH', value: 'CH',checked: false },
-        { label: 'CZ', value: 'CZ' ,checked: false },
-        { label: 'DE', value: 'DE',checked: false },
-        { label: 'EE', value: 'EE',checked: false },
-        { label: 'ES', value: 'ES' ,checked: false },
-        { label: 'FR', value: 'FR' ,checked: false },
-        { label: 'GB', value: 'GB',checked: false },
-        { label: 'GE', value: 'GE' ,checked: false },
-        { label: 'GR', value: 'GR' ,checked: false },
-        { label: 'HR', value: 'HR',checked: false },
-        { label: 'HU', value: 'HU' ,checked: false },
-        { label: 'IE', value: 'IE' ,checked: false },
-        { label: 'LI', value: 'LI' ,checked: false },
-        { label: 'LT', value: 'LT' ,checked: false },
-        { label: 'LV', value: 'LV' ,checked: false },
-        { label: 'MC', value: 'MC' ,checked: false },
-        { label: 'NL', value: 'NL' ,checked: false },
-        { label: 'PL', value: 'PL' ,checked: false },
-        { label: 'PT', value: 'PT' ,checked: false },
-        { label: 'SI', value: 'SI' ,checked: false },
-        { label: 'SK', value: 'SK' ,checked: false },
-        { label: 'UA', value: 'UA' ,checked: false },
+    //To Country
+    const toOptions= ref<PnMultiselectOption[]>([]) 
 
-    ]) 
-
-    const toOptions= ref<PnMultiselectOption[]>([
-        { label: 'SE', value: 'SE', checked: false },
-        { label: 'FI', value: 'FI', checked: false },
-        { label: 'DK', value: 'DK', checked: false },
-        { label: 'NO', value: 'NO', checked: false },
-        { label: 'AX', value: 'AX', checked: false },
-        { label: 'AT', value: 'AT', checked: false },
-        { label: 'BE', value: 'BE', checked: false },
-        { label: 'BG', value: 'BG', checked: false },
-        { label: 'CH', value: 'CH', checked: false },
-        { label: 'CZ', value: 'CZ', checked: false },
-        { label: 'DE', value: 'DE', checked: false },
-        { label: 'EE', value: 'EE', checked: false },
-        { label: 'ES', value: 'ES', checked: false },
-        { label: 'FR', value: 'FR', checked: false },
-        { label: 'GB', value: 'GB', checked: false },
-        { label: 'GE', value: 'GE', checked: false },
-        { label: 'GR', value: 'GR', checked: false },
-        { label: 'HR', value: 'HR', checked: false },
-        { label: 'HU', value: 'HU', checked: false },
-        { label: 'IE', value: 'IE', checked: false },
-        { label: 'LI', value: 'LI', checked: false },
-        { label: 'LT', value: 'LT', checked: false },
-        { label: 'LU', value: 'LU', checked: false },
-        { label: 'LV', value: 'LV', checked: false },
-        { label: 'MC', value: 'MC', checked: false },
-        { label: 'NL', value: 'NL', checked: false },
-        { label: 'PL', value: 'PL', checked: false },
-        { label: 'PT', value: 'PT', checked: false },
-        { label: 'SI', value: 'SI', checked: false },
-        { label: 'SK', value: 'SK', checked: false },
-        { label: 'UA', value: 'UA', checked: false },
-    ]) 
+      //med API-anrop
+    const productGroups = ref<ProductGroup[]>([])
    
     //skapar filtergrupper som filtererar baserat på valen.
     const filteredGroups = computed(() => {
@@ -117,6 +48,10 @@
 
             // Filtrera raderna i varje grupp
             const filteredRows = group.rows.filter(row => {
+
+                console.log('row:', row.issuer, row.from, row.to, row.category)
+                console.log('selected:', selectedFromCountries.value, selectedToCountries.value)
+
                 const categoryMatch = selectedCategories.value.length === 0
                 || selectedCategories.value.includes(row.category) 
 
@@ -138,6 +73,78 @@
             .filter(group => group.rows.length > 0)
     })
 
+    //OnMounted för Issuers
+   onMounted(async () => {
+
+    //ToCountries
+    const ToCountryData = await fetchToCountries()
+    toOptions.value = ToCountryData.map((f:any) => ({
+        label: f.code,
+        value: f.code,
+        checked: false
+    }))
+
+    //FromCountries
+    const fromCountryData = await fetchFromCountries()
+    fromOptions.value = fromCountryData.map((f:any) => ({
+        label: f.code,
+        value: f.code,
+        checked: false
+    }))
+
+    //Categories
+    const categoryData = await fetchProductCategories()
+    categoryOptions.value = categoryData.map((c:any) => ({
+        label: c.name,
+        value: c.name,
+        checked: false
+    }))
+
+    //Issuers
+    const data = await fetchIssuers()
+    issuerOptions.value = data.map((i: any) => ({
+        label: i.issuerCode,
+        value: i.issuerCode,
+        checked: false
+    }))
+
+    // Sätt options + listeners i ett enda setTimeout
+    setTimeout(() => {
+        const catEl = document.querySelector('#filter-product-category') as any
+        if (catEl) {
+            catEl.options = categoryOptions.value
+            catEl.addEventListener('pnChange', (e: any) => {
+                selectedCategories.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
+            })
+        }
+
+        const issEl = document.querySelector('#issuer-area') as any
+        if (issEl) {
+            issEl.options = issuerOptions.value
+            issEl.addEventListener('pnChange', (e: any) => {
+                selectedIssuers.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
+            })
+        }
+
+        const fromEl = document.querySelector('#origin-country-area') as any
+        if (fromEl) {
+            fromEl.options = fromOptions.value
+            fromEl.addEventListener('pnChange', (e: any) => {
+                selectedFromCountries.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
+            })
+        }
+
+        const toEl = document.querySelector('#destination-country-area') as any
+        if (toEl) {
+            toEl.options = toOptions.value
+            toEl.addEventListener('pnChange', (e: any) => {
+                selectedToCountries.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
+            })
+        }
+    }, 800)
+
+    await loadProducts()
+})
 
 
     //Table Section data
@@ -157,36 +164,36 @@
         rows: TableRow[]
     }
 
-    // Mock-data — ersätts senare med API-anrop
-    const productGroups = ref<ProductGroup[]>([
-    {
-        id: 1,
-        productName: '19, PN Service Point',
-        rows: [
-        { id: 1, product: '19, PN Parcel', issuer: 'DL-ZDL', from: 'Nordic Excl: FI, NO, DK', to: 'World Excl:', addons: 'Tobacco, lorem ipsum, lorem ipsum',category: 'parcel'  },
-        { id: 2, product: '19, PN Parcel', issuer: 'DE-Z10', from: 'Finland', to: 'World', addons: 'Tobacco' ,category: 'parcel' },
-        { id: 3, product: '19, PN Parcel', issuer: 'DK-Z11', from: 'EU Excl: DK', to: 'World Excl: DK', addons: 'Tobacco' ,category: 'parcel' },
-        { id: 4, product: '19, PN Parcel', issuer: 'SE-Z12', from: 'Nordic', to: 'EU', addons: 'Tobacco',category: 'parcel'  },
-        { id: 5, product: '19, PN Parcel', issuer: 'NO-Z13', from: 'Nordic', to: 'World', addons: 'Tobacco',category: 'parcel'  },
-        ]
-    },
-    {
-        id: 2,
-        productName: '19, PN Service Point (Internal flow)',
-        rows: [
-        { id: 1, product: '19, PN Parcel', issuer: 'FI-Z14', from: 'Nordic Excl: FI, NO, DK', to: 'World Excl:', addons: 'Tobacco, lorem ipsum, lorem ipsum' ,category: 'parcel' },
-        { id: 2, product: '19, PN Parcel', issuer: 'ALL-ZALL', from: 'Finland', to: 'World', addons: 'Tobacco' ,category: 'parcel' },
-        ]
-    },
-    {
-        id: 3,
-        productName: '19, PN Parcel locker',
-        rows: [
-        { id: 1, product: '19, PN Parcel', issuer: 'DK-Z11', from: 'Nordic', to: 'EU', addons: 'Tobacco' ,category: 'parcel' },
-        ]
-    },
-    ])
-    
+  
+
+    //loadProduct function
+        async function loadProducts() {
+        const data = await fetchProductEntries()
+
+        const map = new Map<string, ProductGroup>()
+        data.forEach((item: any) => {
+            if (!map.has(item.productName)) {
+            map.set(item.productName, {
+                id: item.id,
+                productName: item.productName,
+                rows: []
+            })
+            }
+            map.get(item.productName)!.rows.push({
+            id: item.id,
+            product: item.productName,
+            issuer: item.issuerCode,      // ← nu fylls dessa
+            from: item.fromCountry,       // ← nu fylls dessa
+            to: item.toCountry,           // ← nu fylls dessa
+            addons: item.addons ?? '',
+            category: item.categoryId === 1 ? 'parcel'
+                    : item.categoryId === 2 ? 'letter'
+                    : item.categoryId === 3 ? 'logistics'
+                    : 'addon'
+            })
+        })
+        productGroups.value = Array.from(map.values())
+    }
 
     function toggleMenu(groupId: number, rowId: number){
         const key = groupId * 1000 + rowId

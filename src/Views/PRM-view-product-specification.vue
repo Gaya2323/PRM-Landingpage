@@ -253,7 +253,7 @@
 
                     </div>
 
-                <!--More filters button + Modal-->
+                <!--More filters Button + Modal-->
                 <div class="filter-more-row">
 
                 <div @click="openMoreFilters">
