@@ -1453,7 +1453,7 @@ pn-modal.drawer-open {
     gap: 24px;
     box-sizing: border-box;
 }
-.spec-back-btn {
+.config-back-btn {
   display: flex;
     align-items: center;
     gap: 6px;
@@ -1465,6 +1465,7 @@ pn-modal.drawer-open {
     color: #005D92;
     padding: 0;
     margin-bottom: 22px;
+    padding-left: 36px;
     
 
 }
@@ -1473,9 +1474,10 @@ pn-modal.drawer-open {
     flex-direction: row;
     align-items: center;
     gap: 24px;
+    padding-left: 40px;
 }
 
-.spec-back-btn .pn-icon-svg {
+.config-back-btn .pn-icon-svg {
     width: 16px;
     height: 16px;
 }
@@ -1611,6 +1613,10 @@ pn-modal.drawer-open {
     margin: 0;
 }
 
+.row-active {
+  background-color:#e0f8ff;
+}
+
 /*..CONFIG-ACTION BUTTONS.*/
 .config-action-cell {
     display: flex;
@@ -1684,4 +1690,429 @@ pn-modal.drawer-open {
     text-align: left;
     box-sizing: border-box;
 }
+.config-dropdown-item:hover {
+    background: #F0F7FB;
+}
 
+.config-dropdown-item--danger:hover {
+    background: #FFF0F0;
+    color: #C0392B;
+}
+
+/*.PRODUCT CONFIG DRAWER CSS.............................................*/
+
+
+.spec-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 100;
+}
+
+.spec-drawer {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 480px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    box-shadow:
+        0px 25.6px 57.6px 0px rgba(0, 0, 0, 0.22),
+        0px 4.8px 14.4px 0px rgba(0, 0, 0, 0.18);
+    transition: right 0.3s ease;
+}
+
+.spec-drawer.spec-drawer--open {
+    right: 0;
+}
+
+.spec-drawer-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Header */
+.spec-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 74px 20px 16px 24px;
+    flex-shrink: 0;
+}
+
+.spec-drawer-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+}
+
+.spec-drawer-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.spec-drawer-close-btn:hover {
+    background: #f0f0f0;
+}
+
+/* Divider */
+.spec-drawer-divider {
+    height: 1px;
+    background: #E0E0E0;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Scrollable content area */
+.spec-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px;
+}
+
+/* Meta row: Issuer | Origin | Destination */
+.spec-meta-row {
+    font-size: 14px;
+    color: #111111;
+    padding: 16px 0 4px 0;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.spec-meta-sep {
+    margin: 0 8px;
+    color: #888888;
+}
+
+/* Sections */
+.spec-section {
+    padding: 16px 0;
+}
+
+.spec-section--last {
+    padding-bottom: 32px;
+}
+
+.spec-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 10px 0;
+}
+
+/* Country exceptions */
+.spec-exceptions-row {
+    display: flex;
+    gap: 40px;
+    font-size: 14px;
+    color: #111111;
+}
+
+.spec-exceptions-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.spec-exceptions-label {
+    font-weight: 600;
+}
+
+/* Dimensions */
+.spec-dimensions-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.spec-dim-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.spec-dim-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.spec-dim-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.spec-dim-label {
+    font-size: 12px;
+    color: #333333;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.spec-dim-bottom {
+    font-size: 12px;
+    color: #333333;
+}
+
+.spec-box-svg {
+    width: 140px;
+    height: auto;
+}
+
+/* Max weight */
+.spec-weight-row {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: #111111;
+}
+
+/* Add-on chips */
+.spec-addon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0 4px 0;
+}
+
+.spec-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid #005D92;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #005D92;
+    background: #ffffff;
+}
+
+.spec-chip--forbidden {
+    border-color: #C0392B;
+    color: #C0392B;
+}
+
+.spec-chip-empty {
+    font-size: 13px;
+    color: #888888;
+}
+
+/* Footer */
+.spec-drawer-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid #E0E0E0;
+    flex-shrink: 0;
+}
+
+/*..PRODUCT CONFIG SIDA RESPONSIVITET.........................*/
+
+/*...tablett. 769px - 1280px..*/
+@media(min-width: 769px) and (max-width:1280px){
+
+    /* Header-rad med titel+knapp... */
+  .prm-config-title-row{
+    flex-wrap: wrap;
+    gap:9px;
+  }
+ 
+  .prm-header-config-left {
+    flex: 1;
+    min-width: 0;
+}
+  
+  /*.filter rad 4 i rad.*/
+
+  .filter-config-section {
+    background: transparent;
+  }
+  .filter-config-row{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    justify-content: start !important;
+    width: 100% !important;
+
+  }
+  .filter-config-group{
+    width: 100% !important;
+    max-width: 100% !important;
+    
+  }
+
+  /* --- Tabell under filter-section: dölj Destination och Add-ons kolumner --- */
+  .config-col-to,
+  .config-col-addons {
+      display: none !important;
+  }
+
+  /* --- Drawer: 55% bredd istället för fast 480px --- */
+  .spec-drawer {
+    width: 55% !important;
+    right: -56% !important;
+  }
+
+  .spec-drawer.spec-drawer--open {
+    right: 0 !important;
+  }
+
+
+}
+
+
+/*  MOBIL  ≤ 768px   */
+
+@media (max-width: 768px) {
+
+    .config-main-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap:16px;
+    }
+
+    /* --- Wrapper: minska padding --- */
+    .prm-config-wrapper {
+        padding: 0 16px 40px 16px;
+    }
+    .filter-config-section {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+    }
+
+    /* --- Header: stapla titel och knapp --- */
+    .prm-config-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding-left: 40px;
+    }
+
+    .prm-header-config-left {
+        width: 100%;
+    }
+
+    .prm-config-button {
+        width: 100%;
+    }
+
+    /* Knapp full bredd */
+    .config-new-btn {
+        width: 100%;
+    }
+
+    .config-new-btn pn-button {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* --- Filter: 1 kolumn --- */
+    .filter-config-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .filter-config-group {
+        width: 100% !important;
+        min-height: 48px !important;
+    }
+    .filter-config-group pn-multiselect {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* --- Tabell: dölj alla kolumner utom Product + Actions --- */
+    .config-col-issuer,
+    .config-col-from,
+    .config-col-to,
+    .config-col-addons {
+        display: none !important;
+    }
+
+    /* --- Product-cellen: visa subtext under produktnamn --- */
+    .config-col-product .column-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    /* Subtext med Issuer · Origin · Destination */
+    .row-subtext {
+        font-size: 11px;
+        color: #555555;
+        line-height: 1.3;
+    }
+
+    /* --- Actions: dölj Edit-knappen, behåll ögat + tre-dots --- */
+    .config-action-btn[aria-label="Edit"] {
+        display: none !important;
+    }
+
+    /* --- Drawer: helskärm --- */
+    .spec-drawer {
+        width: 100% !important;
+        right: -100% !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .spec-drawer.spec-drawer--open {
+        right: 0 !important;
+    }
+
+    /* --- Drawer footer: knappar full bredd --- */
+    .spec-drawer-footer {
+        gap: 8px;
+    }
+
+    .spec-drawer-footer > * {
+        flex: 1;
+    }
+
+    .spec-drawer-footer pn-button {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* --- Dimensions-blocket: krymper snällt --- */
+    .spec-box-svg {
+        width: 110px !important;
+    }
+
+    /* --- Weight-rad: staplas vid behov --- */
+    .spec-weight-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+}

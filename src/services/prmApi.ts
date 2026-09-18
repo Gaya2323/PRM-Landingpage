@@ -24,14 +24,14 @@ export async function fetchIssuers() {
 
 //Product Category
 export async function fetchProductCategories(){
-    const response = await fetch(` ${BASE_URL}/categories`)
+    const response = await fetch(`${BASE_URL}/categories`)
     if(!response.ok) throw new Error ('APK-fel: ' + response.status)
         return response.json()
 }
 
 //hämtar info beroende vad filter-är vald
 export async function fetchProductsByCategory(categoryId:number){
-    const response = await fetch(`$(BASE_URL)/products/category/$(categoryId)`)
+    const response = await fetch(`${BASE_URL}/products/category/${categoryId}`)
     if(!response.ok) throw new Error('API-fel: '+ response.status)
         return response.json()
 }

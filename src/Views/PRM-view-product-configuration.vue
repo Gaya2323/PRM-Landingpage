@@ -2,9 +2,10 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
-    import { ref, computed, onMounted } from 'vue'
+    import { ref, computed, onMounted, triggerRef } from 'vue'
     import type { PnMultiselectOption } from '@postnord/web-components/types'
     import { fetchIssuers, fetchProductCategories, fetchFromCountries, fetchToCountries, fetchProductEntries  } from '../services/prmApi'
+    import ProductConfigDrawer from '../components/ProductConfigDrawer.vue'
 
    
 
@@ -17,136 +18,9 @@
     const selectedFromCountries = ref<string[]>([])
     const selectedToCountries = ref<string[]>([])
 
-    function goBack() {
-    router.push('/')
-    }
-
-    function newProductSpecification(){
-            router.push('#')
-    }
-
-    //Product Category Options
-    const categoryOptions = ref<PnMultiselectOption[]>([])
-
-    //Issuer Options
-    const issuerOptions = ref<PnMultiselectOption[]>([])
-
-    //From Country
-    const fromOptions = ref<PnMultiselectOption[]>([]) 
-
-    //To Country
-    const toOptions= ref<PnMultiselectOption[]>([]) 
-
-      //med API-anrop
-    const productGroups = ref<ProductGroup[]>([])
-   
-    //skapar filtergrupper som filtererar baserat på valen.
-    const filteredGroups = computed(() => {
-
-        return productGroups.value
-            .map(group => {
-
-            // Filtrera raderna i varje grupp
-            const filteredRows = group.rows.filter(row => {
-
-                console.log('row:', row.issuer, row.from, row.to, row.category)
-                console.log('selected:', selectedFromCountries.value, selectedToCountries.value)
-
-                const categoryMatch = selectedCategories.value.length === 0
-                || selectedCategories.value.includes(row.category) 
-
-                const issuerMatch = selectedIssuers.value.length === 0
-                || selectedIssuers.value.includes(row.issuer)
-
-                const fromMatch = selectedFromCountries.value.length === 0
-                || selectedFromCountries.value.includes(row.from)
-
-                const toMatch = selectedToCountries.value.length === 0
-                || selectedToCountries.value.includes(row.to)
-
-                return categoryMatch && issuerMatch && fromMatch && toMatch
-            })
-
-            return { ...group, rows: filteredRows }
-            })
-            // Ta bort grupper som inte har några rader kvar
-            .filter(group => group.rows.length > 0)
-    })
-
-    //OnMounted för Issuers
-   onMounted(async () => {
-
-    //ToCountries
-    const ToCountryData = await fetchToCountries()
-    toOptions.value = ToCountryData.map((f:any) => ({
-        label: f.code,
-        value: f.code,
-        checked: false
-    }))
-
-    //FromCountries
-    const fromCountryData = await fetchFromCountries()
-    fromOptions.value = fromCountryData.map((f:any) => ({
-        label: f.code,
-        value: f.code,
-        checked: false
-    }))
-
-    //Categories
-    const categoryData = await fetchProductCategories()
-    categoryOptions.value = categoryData.map((c:any) => ({
-        label: c.name,
-        value: c.name,
-        checked: false
-    }))
-
-    //Issuers
-    const data = await fetchIssuers()
-    issuerOptions.value = data.map((i: any) => ({
-        label: i.issuerCode,
-        value: i.issuerCode,
-        checked: false
-    }))
-
-    // Sätt options + listeners i ett enda setTimeout
-    setTimeout(() => {
-        const catEl = document.querySelector('#filter-product-category') as any
-        if (catEl) {
-            catEl.options = categoryOptions.value
-            catEl.addEventListener('pnChange', (e: any) => {
-                selectedCategories.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
-            })
-        }
-
-        const issEl = document.querySelector('#issuer-area') as any
-        if (issEl) {
-            issEl.options = issuerOptions.value
-            issEl.addEventListener('pnChange', (e: any) => {
-                selectedIssuers.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
-            })
-        }
-
-        const fromEl = document.querySelector('#origin-country-area') as any
-        if (fromEl) {
-            fromEl.options = fromOptions.value
-            fromEl.addEventListener('pnChange', (e: any) => {
-                selectedFromCountries.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
-            })
-        }
-
-        const toEl = document.querySelector('#destination-country-area') as any
-        if (toEl) {
-            toEl.options = toOptions.value
-            toEl.addEventListener('pnChange', (e: any) => {
-                selectedToCountries.value = e.detail.filter((o: any) => o.checked).map((o: any) => o.value)
-            })
-        }
-    }, 800)
-
-    await loadProducts()
-})
-
-
+    //Config Drawer - modala vy
+    const selectedRow = ref<TableRow | null>(null)
+        
     //Table Section data
     interface TableRow {
         id: number
@@ -164,36 +38,185 @@
         rows: TableRow[]
     }
 
-  
+    function goBack() {
+    router.push('/')
+    }
 
-    //loadProduct function
-        async function loadProducts() {
-        const data = await fetchProductEntries()
+    function newProductSpecification(){
+            router.push('#')
+    }
 
-        const map = new Map<string, ProductGroup>()
-        data.forEach((item: any) => {
-            if (!map.has(item.productName)) {
-            map.set(item.productName, {
+   
+
+
+    //Product Category Options
+    const categoryOptions = ref<PnMultiselectOption[]>([])
+
+    //Issuer Options
+    const issuerOptions = ref<PnMultiselectOption[]>([])
+
+    //From Country
+    const fromOptions = ref<PnMultiselectOption[]>([]) 
+
+    //To Country
+    const toOptions= ref<PnMultiselectOption[]>([]) 
+
+      //med API-anrop
+    const productGroups = ref<ProductGroup[]>([])
+
+    const activeRowId = ref<number | null >(null)
+   
+    //skapar filtergrupper som filtererar baserat på valen.
+   const filteredGroups = computed(() => {
+    console.log('filteredGroups kör, selectedCategories:', selectedCategories.value)
+
+    return productGroups.value
+        .map(group => {
+            const filteredRows = group.rows.filter(row => {
+
+                console.log(`row.category: "${row.category}" | selected: ${JSON.stringify(selectedCategories.value)} | match: ${selectedCategories.value.includes(row.category)}`)
+                console.log(`row.from: "${row.from}" | row.to: "${row.to}"`)
+
+                const categoryMatch = selectedCategories.value.length === 0
+                    || selectedCategories.value.some(s => s.toLowerCase() === row.category.toLowerCase())
+
+                const issuerMatch = selectedIssuers.value.length === 0
+                    || selectedIssuers.value.includes(row.issuer)
+
+                const fromMatch = selectedFromCountries.value.length === 0
+                    || selectedFromCountries.value.includes(row.from)
+
+                const toMatch = selectedToCountries.value.length === 0
+                    || selectedToCountries.value.includes(row.to)
+
+                return categoryMatch && issuerMatch && fromMatch && toMatch
+            })
+
+            return { ...group, rows: filteredRows }
+        })
+        .filter(group => group.rows.length > 0)
+})
+
+
+
+    //OnMounted för Issuers
+   onMounted(async () => {
+
+    // ToCountries
+    const ToCountryData = await fetchToCountries()
+    toOptions.value = [...new Set(
+        ToCountryData
+            .map((f: any) => f.code?.replace(/[{}]/g, '') ?? '')
+            .filter(Boolean)
+    )].map(code => ({ label: code as string, value: code as string, checked: false }))
+
+    // FromCountries
+    const fromCountryData = await fetchFromCountries()
+    fromOptions.value = [...new Set(
+        fromCountryData
+            .map((f: any) => f.code?.replace(/[{}]/g, '') ?? '')
+            .filter(Boolean)
+    )].map(code => ({ label: code as string, value: code as string, checked: false }))
+
+    // Categories
+    const categoryData = await fetchProductCategories()
+    console.log('categoryData[0]:', categoryData[0])
+
+    categoryOptions.value = categoryData.map((c: any) => ({
+        label: c.name,
+        value: c.name,
+        checked: false
+    }))
+
+    // Bygg lookup-map: categoryId → categoryName
+   // Ny — med explicit typ
+    const categoryMap = new Map<number, string>(categoryData.map((c: any) => [c.id as number, c.name as string]))
+    console.log('categoryMap:', categoryMap)
+
+    // Issuers
+    const issuerData = await fetchIssuers()
+    issuerOptions.value = issuerData.map((i: any) => ({
+        label: i.issuerCode,
+        value: i.issuerCode,
+        checked: false
+    }))
+
+  setTimeout(() => {
+        const catEl = document.querySelector('#filter-product-category') as any
+        const issEl = document.querySelector('#issuer-area') as any
+        const fromEl = document.querySelector('#origin-country-area') as any
+        const toEl = document.querySelector('#destination-country-area') as any
+
+        if (catEl) catEl.options = categoryOptions.value
+        if (issEl) issEl.options = issuerOptions.value
+        if (fromEl) fromEl.options = fromOptions.value
+        if (toEl) toEl.options = toOptions.value
+
+        // Polla options var 200ms
+        setInterval(() => {
+            if (catEl?.options) {
+                const checked = catEl.options.filter((o: any) => o.checked).map((o: any) => o.value)
+                if (JSON.stringify(checked) !== JSON.stringify(selectedCategories.value)) {
+                    selectedCategories.value = [...checked]
+                    console.log('selectedCategories:', selectedCategories.value)
+                }
+            }
+            if (issEl?.options) {
+                const checked = issEl.options.filter((o: any) => o.checked).map((o: any) => o.value)
+                if (JSON.stringify(checked) !== JSON.stringify(selectedIssuers.value)) {
+                    selectedIssuers.value = [...checked]
+                    console.log('selectedIssuers:', selectedIssuers.value)
+                }
+            }
+            if (fromEl?.options) {
+                const checked = fromEl.options.filter((o: any) => o.checked).map((o: any) => o.value)
+                if (JSON.stringify(checked) !== JSON.stringify(selectedFromCountries.value)) {
+                    selectedFromCountries.value = [...checked]
+                    console.log('selectedFromCountries:', selectedFromCountries.value)
+                }
+            }
+            if (toEl?.options) {
+                const checked = toEl.options.filter((o: any) => o.checked).map((o: any) => o.value)
+                if (JSON.stringify(checked) !== JSON.stringify(selectedToCountries.value)) {
+                    selectedToCountries.value = [...checked]
+                    console.log('selectedToCountries:', selectedToCountries.value)
+                }
+            }
+        }, 200)
+    }, 800)
+    // Skicka med categoryMap till loadProducts
+    await loadProducts(categoryMap)
+})
+
+//loadProduct function
+    async function loadProducts(categoryMap: Map<number, string> = new Map()) {
+    const data = await fetchProductEntries()
+    console.log('product[0]:', data[0])
+
+    const map = new Map<string, ProductGroup>()
+    data.forEach((item: any) => {
+        const groupKey = item.productName
+
+        if (!map.has(groupKey)) {
+            map.set(groupKey, {
                 id: item.id,
                 productName: item.productName,
                 rows: []
             })
-            }
-            map.get(item.productName)!.rows.push({
+        }
+        map.get(groupKey)!.rows.push({
             id: item.id,
-            product: item.productName,
-            issuer: item.issuerCode,      // ← nu fylls dessa
-            from: item.fromCountry,       // ← nu fylls dessa
-            to: item.toCountry,           // ← nu fylls dessa
-            addons: item.addons ?? '',
-            category: item.categoryId === 1 ? 'parcel'
-                    : item.categoryId === 2 ? 'letter'
-                    : item.categoryId === 3 ? 'logistics'
-                    : 'addon'
-            })
+            product: item.productEntryName,
+            issuer: item.issuerCode,
+            from: item.fromCountry,
+            to: item.toCountry,
+            addons: '',
+            category: item.categoryName ?? categoryMap.get(item.categoryId) ?? ''
         })
-        productGroups.value = Array.from(map.values())
-    }
+    })
+    productGroups.value = Array.from(map.values())
+}
+
 
     function toggleMenu(groupId: number, rowId: number){
         const key = groupId * 1000 + rowId
@@ -203,6 +226,17 @@
         activeMenu.value = null
     }
 
+    //Config Drawer functions och övriga
+    function openDrawer(row: TableRow){
+        selectedRow.value = row
+    }
+    function closeDrawer(){
+        selectedRow.value = null
+    }
+
+
+
+
 </script>
 
 
@@ -211,7 +245,7 @@
         <div class="spec-config-header">
 
             <!--Back-link--->
-            <button class="spec-back-btn" @click="goBack" type="button">
+            <button class="config-back-btn" @click="goBack" type="button">
                 <svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path fill="#000" fill-rule="evenodd" d="M10.707 5.293a1 1 0 0 1 0 1.414L6.414 11H20a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0" clip-rule="evenodd"/>
                 </svg>
@@ -291,46 +325,7 @@
 
                 </div>
 
-                <!--Filter -Chips helt separerad från multiselect raden-->
-                <div class="filter-chips-row" v-if="selectedCategories.length > 0 || selectedIssuers.length > 0 || selectedFromCountries.length > 0 || selectedToCountries.length > 0">
-                    
-                    <pn-input-chip
-                        v-for="val in selectedCategories"
-                        :key="'cat-'+val"
-                        :label="categoryOptions.find(o => o.value === val)?.label"
-                        :value="val"
-                        small="true"
-                        @click="selectedCategories = selectedCategories.filter(v => v !== val)">
-                    </pn-input-chip>
-
-                    <pn-input-chip
-                        v-for="val in selectedIssuers"
-                        :key="'iss-'+val"
-                        :label="issuerOptions.find(o => o.value === val)?.label"
-                        :value="val"
-                        small="true"
-                        @click="selectedIssuers = selectedIssuers.filter(v => v !== val)">
-                    </pn-input-chip>
-
-                    <pn-input-chip
-                        v-for="val in selectedFromCountries"
-                        :key="'from-'+val"
-                        :label="val"
-                        :value="val"
-                        small="true"
-                        @click="selectedFromCountries = selectedFromCountries.filter(v => v !== val)">
-                    </pn-input-chip>
-
-                    <pn-input-chip
-                        v-for="val in selectedToCountries"
-                        :key="'to-'+val"
-                        :label="val"
-                        :value="val"
-                        small="true"
-                        @click="selectedToCountries = selectedToCountries.filter(v => v !== val)">
-                    </pn-input-chip>
-
-                </div>
+    
             </div>
 
             <!--Table Section 1------------------------>
@@ -349,7 +344,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="row in group.rows" :key="row.id">
+                            <tr v-for="row in group.rows" :key="row.id" :class="{ 'row-active': activeRowId === row.id}" @click="activeRowId=row.id">
                                 <td class="config-col-product"><div class="column-wrapper">{{ row.product }}</div></td>
                                 <td class="config-col-issuer"><div class="column-wrapper">{{ row.issuer }}</div></td>
                                 <td class="config-col-from"><div class="column-wrapper">{{ row.from }}</div></td>
@@ -359,7 +354,7 @@
                                 <td><div class="config-column-wrapper action-cell">
 
                                     <!--View button-->
-                                    <button class="config-action-btn" aria-label="View">
+                                    <button class="config-action-btn" aria-label="View" @click="openDrawer(row); activeRowId= row.id">
                                         <pn-icon
                                             icon='&lt;svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="#005D92" viewBox="0 0 24 24"&gt;&lt;path fill="#000" fill-rule="evenodd" d="M12 7c-5.382 0-7.908 3.33-8.758 4.775a.43.43 0 0 0 0 .45C4.092 13.67 6.618 17 12 17s7.908-3.33 8.758-4.775a.43.43 0 0 0 0-.45C19.908 10.33 17.382 7 12 7M1.518 10.761C2.55 9.005 5.618 5 12 5s9.45 4.005 10.482 5.761a2.43 2.43 0 0 1 0 2.478C21.45 14.995 18.382 19 12 19s-9.45-4.005-10.482-5.761a2.43 2.43 0 0 1 0-2.478M8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0m4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4" clip-rule="evenodd"/&gt;&lt;/svg&gt;'
                                             color="blue700"
@@ -381,7 +376,7 @@
                                             ></pn-icon>
                                         </button>
                                         <!-- Dropdown menu -->
-                                         <div class="config-dropdown-menu" v-if="activeMenu === group.id * 1000 + row.id">
+                                        <div class="config-dropdown-menu" v-if="activeMenu === group.id * 1000 + row.id">
                                             <button class="config-dropdown-item" @click="closeMenu">
                                                <pn-icon
                                                     icon='&lt;svg class="pn-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"&gt;&lt;path fill="#000" fill-rule="evenodd" d="M3.055 11H3.5a1 1 0 1 1 0 2h-.445A9.004 9.004 0 0 0 11 20.945V20.5a1 1 0 1 1 2 0v.445A9.004 9.004 0 0 0 20.945 13H20.5a1 1 0 1 1 0-2h.445A9.004 9.004 0 0 0 13 3.055V3.5a1 1 0 1 1-2 0v-.445A9.004 9.004 0 0 0 3.055 11M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12m11-6a1 1 0 0 1 1 1v4.172a1 1 0 0 0 .293.707l.914.914a1 1 0 0 1-1.414 1.414l-.914-.914A3 3 0 0 1 11 11.172V7a1 1 0 0 1 1-1" clip-rule="evenodd"/&gt;&lt;/svg&gt;'
@@ -424,6 +419,8 @@
 
         
         </div>
+
+        <ProductConfigDrawer :row="selectedRow" @close="closeDrawer"/>
         
 
     </div>
