@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
-    import { ref, computed, onMounted, triggerRef } from 'vue'
+    import { ref, computed, onMounted } from 'vue'
     import type { PnMultiselectOption } from '@postnord/web-components/types'
     import { fetchIssuers, fetchProductCategories, fetchFromCountries, fetchToCountries, fetchProductEntries  } from '../services/prmApi'
     import ProductConfigDrawer from '../components/ProductConfigDrawer.vue'
