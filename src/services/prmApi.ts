@@ -46,3 +46,34 @@ export async function fetchProductEntries(){
     if (!response.ok) throw new Error('API-fel: ' + response.status)
     return response.json()
 }
+
+// Lägger till Additional Service
+export interface AdditionalServiceSpec {
+  additionalServiceEntryId: number
+  additionalServiceId: string
+  additionalServiceName: string
+  productId: string
+  issuerCode: string
+  destinationFrom: string
+  destinationTo: string
+  weightUnit: string
+  dimensionUnit: string
+  weightFrom: number | null
+  weightTo: number | null
+  maxLength: number | null
+  maxHeight: number | null
+  maxDept: number | null
+  maxCircumference: number | null
+  minLength: number | null
+  minHeight: number | null
+  minDept: number | null 
+}
+
+// Lägg fetchAdditional SErvice funktion
+export async function fetchAdditionalServices(
+  productId: string
+): Promise<AdditionalServiceSpec[]> {
+  const res = await fetch(`http://localhost:8080/api/additional-services/${productId}`)
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}

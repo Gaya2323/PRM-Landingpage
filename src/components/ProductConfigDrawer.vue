@@ -1,9 +1,11 @@
 
 <script setup lang="ts">
-    import { computed } from 'vue'
+    import { computed, ref, watch } from 'vue'
+    import { fetchAdditionalServices, type AdditionalServiceSpec } from '../services/prmApi'
 
     interface TableRow {
         id: number
+        productId: string  
         product: string
         issuer: string
         from: string
@@ -35,6 +37,70 @@
         'Signature Required',
         'Recipient Flex/Leave without Signature'
     ]
+
+    //hämta measurements när drawer öppnas 
+    const specs = ref<AdditionalServiceSpec[]>([])
+
+    watch(() => props.row, async (newRow) => {
+        if (!newRow?.productId) {
+            specs.value = []
+            return
+        }
+        specs.value = await fetchAdditionalServices(newRow.productId)
+        console.log('specs:', specs.value)
+    })
+
+   // Hjälpfunktion: första raden med ett värde
+    function firstWith<K extends keyof AdditionalServiceSpec>(key: K): AdditionalServiceSpec[K] | null {
+        return specs.value.find(s => s[key] != null)?.[key] ?? null
+    }
+
+    const uniqueWeightSpecs = computed(() => {
+        const map = new Map<string, AdditionalServiceSpec>()
+        specs.value.forEach(s => {
+            if (s.weightTo == null && s.weightFrom == null) return
+            const key = s.additionalServiceId  // H1, H9 etc.
+            const existing = map.get(key)
+            if (!existing) {
+                map.set(key, s)
+            } else {
+                // Behåll raden med det högsta värdet
+                const newVal = s.weightTo ?? s.weightFrom ?? 0
+                const existingVal = existing.weightTo ?? existing.weightFrom ?? 0
+                if (newVal > existingVal) {
+                    map.set(key, s)
+                }
+            }
+        })
+        return Array.from(map.values())
+    })
+
+    //Height & Width; visa högsta värdet
+    const maxHeightValue = computed(() => {
+        const values = specs.value
+            .map(s => s.minHeight)       
+            .filter((v): v is number => v != null)
+        return values.length ? Math.max(...values) : null
+    })
+
+    const maxWidthValue = computed(() => {
+        const values = specs.value
+            .map(s => s.minDept)
+            .filter((v): v is number => v != null)
+        return values.length ? Math.max(...values) : null
+    })
+
+    //Add-ONS ; hämtas härifrån när drawer öppnas
+    const uniqueAddons = computed(() => {
+    const seen = new Set<string>()
+        return specs.value.filter(s => {
+            if (seen.has(s.additionalServiceId)) return false
+            seen.add(s.additionalServiceId)
+            return true
+        })
+    })
+
+
 </script>
 
 <template>
@@ -43,8 +109,8 @@
     <div
         class="spec-drawer-overlay"
         v-if="row"
-        @click="close"
-    ></div>
+        @click="close">
+    </div>
 
     <!-- Drawer -->
     <div class="spec-drawer" :class="{ 'spec-drawer--open': row }">
@@ -93,8 +159,11 @@
                 <div class="spec-section">
                     <div class="spec-dimensions-wrapper">
                         <div class="spec-dim-left">
-                            <span class="spec-dim-label">Parcel girth:<br>up to 3 m</span>
+                            <span class="spec-dim-label" v-if="firstWith('maxCircumference')">Parcel girth:<br>up to {{ firstWith('maxCircumference') }} {{ firstWith('dimensionUnit') }}</span>
+                            <span class="spec-dim-label" v-else>Parcel girth: –</span>
                         </div>
+
+                        <!-- SVG-bilden "en Låda" i mitten  -->
                         <div class="spec-dim-center">
                             <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" class="spec-box-svg" aria-hidden="true">
                                 <polygon points="20,70 70,88 120,70 70,52" fill="#005D92" opacity="0.75"/>
@@ -107,26 +176,37 @@
                                 <polygon points="72,8 66,10 72,14" fill="#333"/>
                                 <polygon points="118,30 124,28 120,23" fill="#333"/>
                             </svg>
-                            <span class="spec-dim-bottom">Lenght: 5 cm - 2 m</span>
+
+                            <span class="spec-dim-bottom">
+                                Length: up to {{ firstWith('maxLength') ?? '–' }} {{ firstWith('dimensionUnit') ?? '' }}
+                            </span>
                         </div>
-                        <div class="spec-dim-right">
-                            <span class="spec-dim-label">Height:<br>5 cm - 2 m</span>
-                            <span class="spec-dim-label">Width: 5 cm - 2 m</span>
-                        </div>
+                        <!-- Height -->
+                        <span class="spec-dim-label" v-if="maxHeightValue">
+                            Height: up to {{ maxHeightValue }} {{ firstWith('dimensionUnit') ?? '' }}
+                        </span>
+                        <span class="spec-dim-label" v-else>Height: –</span>
+                        <!-- Width -->
+                        <span class="spec-dim-label" v-if="maxWidthValue">
+                            Width: up to {{ maxWidthValue }} {{ firstWith('dimensionUnit') ?? '' }}
+                        </span>
+                        <span class="spec-dim-label" v-else>Width: –</span>
+
                     </div>
                 </div>
 
                 <div class="spec-drawer-divider"></div>
 
                 <!-- Max weight -->
-                <div class="spec-section">
-                    <h3 class="spec-section-title">Max weight</h3>
-                    <div class="spec-weight-row">
-                        <span>Nordics: up to 35 kg</span>
-                        <span>Outside Nordics: up to 31,5 kg</span>
-                    </div>
+                <div class="spec-weight-row">
+                    <span
+                        v-for="spec in uniqueWeightSpecs"
+                        :key="spec.additionalServiceEntryId">
+                        {{ spec.additionalServiceName }}:
+                        <template v-if="spec.weightTo">up to {{ spec.weightTo }} {{ spec.weightUnit }}</template>
+                        <template v-if="spec.weightFrom && !spec.weightTo">from {{ spec.weightFrom }} {{ spec.weightUnit }}</template>
+                    </span>
                 </div>
-
                 <div class="spec-drawer-divider"></div>
 
                 <!-- Available add-ons -->
@@ -135,21 +215,25 @@
                     <pn-accordion single="true">
                         <pn-accordion-row label="General add-ons">
                             <div class="spec-addon-chips">
-                                <template v-if="generalAddons.length">
+                                <template v-if="uniqueAddons.length">
                                     <span
                                         class="spec-chip"
-                                        v-for="addon in generalAddons"
-                                        :key="addon"
-                                    >{{ addon }}</span>
+                                        v-for="addon in uniqueAddons"
+                                        :key="addon.additionalServiceId"
+                                    >{{ addon.additionalServiceName }}</span>
                                 </template>
                                 <span v-else class="spec-chip-empty">–</span>
                             </div>
                         </pn-accordion-row>
+
+                        <!--First mile add-ons-->
                         <pn-accordion-row label="First mile add-ons">
                             <div class="spec-addon-chips">
                                 <span class="spec-chip-empty">–</span>
                             </div>
                         </pn-accordion-row>
+
+                        <!--Last mile add-ons-->
                         <pn-accordion-row label="Last mile add-ons">
                             <div class="spec-addon-chips">
                                 <span class="spec-chip-empty">–</span>

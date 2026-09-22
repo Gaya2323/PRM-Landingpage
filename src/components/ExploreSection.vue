@@ -16,7 +16,7 @@
             
             <!--1st CARD -->
 
-            <div @click.prevent="router.push('/product-configuration')">
+            <div @click.prevent="router.push('/product-configuration')" data-testid="card-parcel">
                 <pn-card label="Parcel products" text="Domestic and international parcel services."
                     aspect-ratio="278/170"
                     href="#"
@@ -31,7 +31,7 @@
 
             <!--2 nd CARD -->
 
-            <div @click.prevent="router.push('/product-configuration')">
+            <div @click.prevent="router.push('/product-configuration')" data-testid="card-letter">
                 <pn-card label="Letter products" text="Mail products and related services."
                     aspect-ratio="278/170"
                     href-label="Explore letter products"
@@ -47,7 +47,7 @@
             
 
             <!--3rd CARD-Logistics-->
-            <div @click.prevent="router.push('/product-configuration')">
+            <div @click.prevent="router.push('/product-configuration')" data-testid="card-logistics">
                 <pn-card label="Logistics" text="Transport and logistics solutions."
                     aspect-ratio="278/170"
                     href="#"

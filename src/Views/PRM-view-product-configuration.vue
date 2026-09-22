@@ -24,6 +24,7 @@
     //Table Section data
     interface TableRow {
         id: number
+        productId: string   
         product: string
         issuer: string
         from: string
@@ -195,6 +196,8 @@
 
     const map = new Map<string, ProductGroup>()
     data.forEach((item: any) => {
+
+        console.log('productId på första raden:', data[0]?.productId)
         const groupKey = item.productName
 
         if (!map.has(groupKey)) {
@@ -206,6 +209,7 @@
         }
         map.get(groupKey)!.rows.push({
             id: item.id,
+            productId: String(item.productId),  
             product: item.productEntryName,
             issuer: item.issuerCode,
             from: item.fromCountry,
@@ -329,7 +333,7 @@
             </div>
 
             <!--Table Section 1------------------------>
-            <div class="config-table-section" v-for="group in filteredGroups" :key="group.id">
+            <div class="config-table-section" v-for="group in filteredGroups" :key="group.id" data-testid="product-group">
                 <h2 class="config-section-title">{{ group.productName }}</h2>
                 <pn-table bordered="true" class="config-product-table-outer">
                     <table class="config-product-table">
