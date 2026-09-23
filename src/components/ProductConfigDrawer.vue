@@ -244,18 +244,6 @@
 
                 <div class="spec-drawer-divider"></div>
 
-                <!-- Forbidden add-ons -->
-                <div class="spec-section spec-section--last">
-                    <h3 class="spec-section-title">Forbidden add-ons</h3>
-                    <div class="spec-addon-chips">
-                        <span
-                            class="spec-chip spec-chip--forbidden"
-                            v-for="addon in forbiddenAddons"
-                            :key="addon"
-                        >{{ addon }}</span>
-                    </div>
-                </div>
-
             </div>
 
             <!-- Footer -->
